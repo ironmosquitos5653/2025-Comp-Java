@@ -114,6 +114,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+/*
+ * Elevator buttons:
+ * Algae shoot high, algae shoot low, level 1, level 2, level 3, and level 4 positions.
+ * 
+ * Coral buttons:
+ * Intake and shoot.
+ * 
+ * Climb
+ * Deploy, intake, 
+ */
+
+
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
