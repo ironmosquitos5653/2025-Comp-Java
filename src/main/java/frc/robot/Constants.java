@@ -34,4 +34,24 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static enum Position {
+
+    // Elevator Positions
+    ELV_1(0, 0),
+    ELV_2(0, 0),
+    ELV_3(0, 0),
+    ELV_4(0, 0),
+    ELV_Intake(0, 0),
+
+    // Climb Positions,
+    Climb_Out(0, 0),
+    Climb_In(0, 0);
+
+    public final double position;
+
+    Position(double p, double angle) {
+      position = p;
+    }
+  }
 }
