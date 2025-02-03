@@ -5,19 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaeSpitCommand extends Command {
   ElevatorSubsystem m_elevatorSubsystem;
-  AlgaeSubsystem m_algaeSubsystem;
 
-  public AlgaeSpitCommand(ElevatorSubsystem elevatorSubsystem, AlgaeSubsystem algaeSubsystem) {
+  public AlgaeSpitCommand(ElevatorSubsystem elevatorSubsystem) {
     m_elevatorSubsystem = elevatorSubsystem;
-    m_algaeSubsystem = algaeSubsystem;
-
-    addRequirements(algaeSubsystem);
   }
 
   // Called when the command is initially scheduled.

@@ -5,20 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralIntakeCommand extends Command {
-  
+
   ElevatorSubsystem m_elevatorSubsystem;
-  CoralSubsystem m_coralSubsystem;
 
-  public CoralIntakeCommand(ElevatorSubsystem elevatorSubsystem, CoralSubsystem coralSubsystem) {
+  public CoralIntakeCommand(ElevatorSubsystem elevatorSubsystem) {
     m_elevatorSubsystem = elevatorSubsystem;
-    m_coralSubsystem = coralSubsystem;
-
-    addRequirements(coralSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -27,11 +22,15 @@ public class CoralIntakeCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_elevatorSubsystem.coralIn();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_elevatorSubsystem.coralOff();
+  }
 
   // Returns true when the command should end.
   @Override

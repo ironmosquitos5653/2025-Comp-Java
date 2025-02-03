@@ -7,8 +7,10 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VisionSubsystem extends SubsystemBase {
   private Drive m_driveSubsystem;
@@ -43,30 +47,33 @@ public class VisionSubsystem extends SubsystemBase {
 
     boolean useMegaTag2 = !true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
-    if (useMegaTag2 == false) {
-      LimelightHelpers.PoseEstimate mt1 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-one");
+    LimelightHelpers.PoseEstimate mt1 =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-one");
 
-      if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-        if (mt1.rawFiducials[0].ambiguity > .7) {
+    if (mt1 != null && useMegaTag2 == false) {
+
+      if (mt1 != null) {
+        if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+          if (mt1.rawFiducials[0].ambiguity > .7) {
+            doRejectUpdate = true;
+          }
+          if (mt1.rawFiducials[0].distToCamera > 3) {
+            doRejectUpdate = true;
+          }
+        }
+        if (mt1.tagCount == 0) {
           doRejectUpdate = true;
         }
-        if (mt1.rawFiducials[0].distToCamera > 3) {
-          doRejectUpdate = true;
-        }
-      }
-      if (mt1.tagCount == 0) {
-        doRejectUpdate = true;
-      }
 
-      if (!doRejectUpdate) {
-        SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
-        m_driveSubsystem.addVisionMeasurement(
-            cameraTransform(mt1.pose),
-            mt1.timestampSeconds,
-            VecBuilder.fill(.1, .1, .1)); // 9999999));
-        SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
-        updateField();
+        if (!doRejectUpdate) {
+          SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
+          m_driveSubsystem.addVisionMeasurement(
+              cameraTransform(mt1.pose),
+              mt1.timestampSeconds,
+              VecBuilder.fill(.1, .1, .1)); // 9999999));
+          SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
+          updateField();
+        }
       }
     } else if (useMegaTag2 == true) {
       LimelightHelpers.SetRobotOrientation(
@@ -115,5 +122,18 @@ public class VisionSubsystem extends SubsystemBase {
 
     return String.format(
         "(%.2f, %.2f) %.2f degrees", pose.getX(), pose.getY(), pose.getRotation().getDegrees());
+  }
+
+  private List<Pose2d> blueReefSides = new ArrayList<Pose2d>();
+
+  private void initReefs() {
+    blueReefSides.add(
+        new Pose2d(new Translation2d(3.676, 2.406), new Rotation2d(0))); // bottom left
+    blueReefSides.add(
+        new Pose2d(new Translation2d(5.519, 2.494), new Rotation2d(0))); // bottom right
+    blueReefSides.add(new Pose2d(new Translation2d(6.182, 4.015), new Rotation2d(0))); // right
+    blueReefSides.add(new Pose2d(new Translation2d(5.567, 5.507), new Rotation2d(0))); // top right
+    blueReefSides.add(new Pose2d(new Translation2d(3.481, 5.26), new Rotation2d(0))); // top left
+    blueReefSides.add(new Pose2d(new Translation2d(2.789, 3.986), new Rotation2d(0))); // left
   }
 }

@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlgaeIntakeCommand extends Command {
-
+public class TestPID extends Command {
   ElevatorSubsystem m_elevatorSubsystem;
 
-  public AlgaeIntakeCommand(ElevatorSubsystem elevatorSubsystem) {
+  public TestPID(ElevatorSubsystem elevatorSubsystem) {
     m_elevatorSubsystem = elevatorSubsystem;
   }
 
@@ -22,11 +21,15 @@ public class AlgaeIntakeCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_elevatorSubsystem.setSpeed(.2);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_elevatorSubsystem.setSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override

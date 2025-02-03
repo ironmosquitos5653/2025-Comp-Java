@@ -14,21 +14,26 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.Position;
+import frc.robot.commands.CoralIntakeCommand;
+import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.TestPID;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
+import frc.robot.subsystems.vision.VisionSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -40,9 +45,13 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final VisionSubsystem visionSubsystem;
+  // private final ClimbSubsystem climbSubsystem;
+  private final ElevatorSubsystem elevatorSubsystem;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController driveController = new CommandXboxController(0);
+  private final CommandXboxController coPilotController = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -59,6 +68,11 @@ public class RobotContainer {
                 new ModuleIOSpark(1),
                 new ModuleIOSpark(2),
                 new ModuleIOSpark(3));
+
+        visionSubsystem = new VisionSubsystem(drive);
+        // climbSubsystem = new ClimbSubsystem();
+        elevatorSubsystem = new ElevatorSubsystem();
+
         break;
 
       case SIM:
@@ -70,6 +84,9 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
+        visionSubsystem = null;
+        // climbSubsystem = null;
+        elevatorSubsystem = null;
         break;
 
       default:
@@ -81,6 +98,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+
+        visionSubsystem = null;
+        // climbSubsystem = null;
+        elevatorSubsystem = null;
         break;
     }
 
@@ -115,49 +136,60 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-/*
- * Elevator buttons:
- * Algae shoot high, algae shoot low, level 1, level 2, level 3, and level 4 positions.
- * 
- * Coral buttons:
- * Intake and shoot.
- * 
- * Climb
- * Deploy, intake, 
- */
-
+    /*
+     * Elevator buttons:
+     * Algae shoot high, algae shoot low, level 1, level 2, level 3, and level 4 positions.
+     *
+     * Coral buttons:
+     * Intake and shoot.
+     *
+     * Climb
+     * Deploy, intake,
+     */
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driveController.getLeftY(),
+            () -> -driveController.getLeftX(),
+            () -> -driveController.getRightX()));
+    visionSubsystem.setDefaultCommand(new RunCommand(() -> {}, visionSubsystem));
+    // climbSubsystem.setDefaultCommand(new RunCommand(() -> {}, climbSubsystem));
+    elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {}, elevatorSubsystem));
 
-    // Lock to 0° when A button is held
-    controller
+    driveController
+        .x()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_1)));
+    driveController
         .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> new Rotation2d()));
-
-    // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-
-    // Reset gyro to 0° when B button is pressed
-    controller
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_2)));
+    driveController
         .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_3)));
+    driveController
+        .y()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
+    driveController.leftBumper().whileTrue(DriveCommands.strafe(drive, !false));
+    // Controls
+    coPilotController
+        .x()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_1)));
+    coPilotController
+        .a()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_2)));
+    coPilotController
+        .b()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_3)));
+    coPilotController
+        .y()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
+
+    coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
+    coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
+    // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
+
+    driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem));
   }
 
   /**

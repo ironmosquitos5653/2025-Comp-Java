@@ -38,8 +38,9 @@ public final class Constants {
   public static enum Position {
 
     // Elevator Positions
-    ELV_1(0, 0),
-    ELV_2(0, 0),
+    ELV_off(0, 0),
+    ELV_1(10, 0),
+    ELV_2(20, 0),
     ELV_3(0, 0),
     ELV_4(0, 0),
     ELV_Intake(0, 0),
@@ -49,9 +50,11 @@ public final class Constants {
     Climb_In(0, 0);
 
     public final double position;
+    public final double angle;
 
-    Position(double p, double angle) {
+    Position(double p, double a) {
       position = p;
+      angle = a;
     }
   }
 }

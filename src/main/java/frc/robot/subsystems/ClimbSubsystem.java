@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +25,12 @@ public class ClimbSubsystem extends SubsystemBase {
     encoder = climb.getAbsoluteEncoder();
     pidController = new PIDController(.015, .0003, 0);
   }
+
+  public ClimbSubsystem(String getSubsystem) {
+    // TODO Auto-generated constructor stub
+  }
+
+  public void toggle() {}
 
   @Override
   public void periodic() {
