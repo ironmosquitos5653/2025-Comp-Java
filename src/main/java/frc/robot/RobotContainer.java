@@ -25,6 +25,7 @@ import frc.robot.Constants.Position;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.LineUpCommand;
 import frc.robot.commands.TestPID;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
+import frc.robot.subsystems.vision.TrajectoryCommandFactory;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -48,6 +50,7 @@ public class RobotContainer {
   private final VisionSubsystem visionSubsystem;
   // private final ClimbSubsystem climbSubsystem;
   private final ElevatorSubsystem elevatorSubsystem;
+  private TrajectoryCommandFactory trajectoryCommandFactory;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -104,6 +107,8 @@ public class RobotContainer {
         elevatorSubsystem = null;
         break;
     }
+
+    trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -187,6 +192,12 @@ public class RobotContainer {
 
     coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
+    driveController
+        .leftBumper()
+        .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, true));
+    driveController
+        .rightBumper()
+        .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, false));
     // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
 
     driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem));
