@@ -108,7 +108,7 @@ public class RobotContainer {
         break;
     }
 
-    trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
+    // trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

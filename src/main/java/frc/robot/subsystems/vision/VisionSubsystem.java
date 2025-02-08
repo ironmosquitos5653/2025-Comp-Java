@@ -146,6 +146,28 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(5.319, 2.921),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueRightBottom"));
+    blueReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(3.217, 1.734), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(3.091, 1.792),
+                new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(3.422, 1.675),
+                new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
+            "BlueLeftBottom"));
+    blueReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(2.126, 4.025), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(2.096, 4.171),
+                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(2.087, 3.840),
+                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+            "BlueLeft"));
   }
 
   public ReefSide findClosest() {

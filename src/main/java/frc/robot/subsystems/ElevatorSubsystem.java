@@ -16,7 +16,7 @@ import frc.robot.Constants.Position;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-  private static final int elevatorMotorCANId = 11;
+  private static final int elevatorMotorCANId = 16;
   private SparkMax elevatorMotor;
   private RelativeEncoder elevatorEncoder;
 
@@ -27,10 +27,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   private PIDController algaePidController;
   private PIDController coralPidController;
 
-  private static final int coralIntakeMotorCANId = 0;
-  private static final int coralRotateMotorCANId = 0;
+  private static final int coralIntakeMotorCANId = 12;
+  private static final int coralRotateMotorCANId = 13;
   private static final int algaeIntakeMotorCANId = 0;
-  private static final int algaeRotateMotorCANId = 0;
+  private static final int algaeRotateMotorCANId = 11;
 
   private SparkMax coralRotateMotor;
   private SparkMax coralIntakeMotor;
@@ -83,8 +83,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       double speed = elevatorPidController.calculate(elevatorEncoder.getPosition());
       if (speed > .4) {
         speed = .4;
-      } else if (speed < -.4) {
-        speed = -.4;
+      } else if (speed < -.1) {
+        speed = -.1;
       }
 
       elevatorMotor.set(speed);
@@ -158,6 +158,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    elevatorMotor.set(speed);
+    coralRotateMotor.set(speed);
   }
 }
