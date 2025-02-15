@@ -190,7 +190,7 @@ public class RobotContainer {
         .y()
         .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
 
-    coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
+    // coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
     driveController
         .leftBumper()
@@ -198,6 +198,8 @@ public class RobotContainer {
     driveController
         .rightBumper()
         .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, false));
+    coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
+    coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
     // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
 
     driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem));

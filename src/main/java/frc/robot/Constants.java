@@ -39,11 +39,11 @@ public final class Constants {
 
     // Elevator Positions
     ELV_off(0, 0),
-    ELV_1(10, 0),
-    ELV_2(20, 0),
-    ELV_3(0, 0),
-    ELV_4(0, 0),
-    ELV_Intake(0, 0),
+    ELV_1(0, .7),
+    ELV_2(1, .8),
+    ELV_3(10, .6),
+    ELV_4(30, .6),
+    ELV_Intake(0, .84),
 
     // Climb Positions,
     Climb_Out(0, 0),
@@ -55,6 +55,11 @@ public final class Constants {
     Position(double p, double a) {
       position = p;
       angle = a;
+    }
+
+    public double angle() {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'angle'");
     }
   }
 }

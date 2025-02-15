@@ -30,7 +30,7 @@ public class VisionSubsystem extends SubsystemBase {
   private Transform3d cameraPose =
       new Transform3d(
           new Translation3d(
-              Units.inchesToMeters(-12.5), Units.inchesToMeters(11), Units.inchesToMeters(0)),
+              Units.inchesToMeters(-12.5), Units.inchesToMeters(10), Units.inchesToMeters(0)),
           new Rotation3d(0, 0, 0));
 
   public VisionSubsystem(Drive driveSubsystem) {
@@ -51,33 +51,34 @@ public class VisionSubsystem extends SubsystemBase {
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
       LimelightHelpers.PoseEstimate mt1 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-one");
-
-      if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-        if (mt1.rawFiducials[0].ambiguity > .7) {
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+      if (mt1 != null) {
+        if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+          if (mt1.rawFiducials[0].ambiguity > .7) {
+            doRejectUpdate = true;
+          }
+          if (mt1.rawFiducials[0].distToCamera > 3) {
+            doRejectUpdate = true;
+          }
+        }
+        if (mt1.tagCount == 0) {
           doRejectUpdate = true;
         }
-        if (mt1.rawFiducials[0].distToCamera > 3) {
-          doRejectUpdate = true;
-        }
-      }
-      if (mt1.tagCount == 0) {
-        doRejectUpdate = true;
-      }
 
-      if (!doRejectUpdate) {
-        SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
-        m_driveSubsystem.addVisionMeasurement(
-            cameraTransform(mt1.pose),
-            mt1.timestampSeconds,
-            VecBuilder.fill(.1, .1, .1)); // 9999999));
-        SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
+        if (!doRejectUpdate) {
+          SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
+          m_driveSubsystem.addVisionMeasurement(
+              cameraTransform(mt1.pose),
+              mt1.timestampSeconds,
+              VecBuilder.fill(.1, .1, .1)); // 9999999));
+          SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
+        }
       }
     } else if (useMegaTag2 == true) {
       LimelightHelpers.SetRobotOrientation(
-          "limelight-one", m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+          "limelight-high", m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-one");
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-high");
 
       if (mt2 != null) {
 

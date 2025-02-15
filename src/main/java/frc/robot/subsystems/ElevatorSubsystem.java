@@ -29,7 +29,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private static final int coralIntakeMotorCANId = 12;
   private static final int coralRotateMotorCANId = 13;
-  private static final int algaeIntakeMotorCANId = 0;
+  private static final int algaeIntakeMotorCANId = 14;
   private static final int algaeRotateMotorCANId = 11;
 
   private SparkMax coralRotateMotor;
@@ -48,28 +48,27 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotorFollower = new SparkMax(elevatorMotorFollowerCANId, MotorType.kBrushless);
     elevatorMotorFollower.isFollower();
     elevatorEncoder = elevatorMotor.getEncoder();
-    // elevatorEncoder.setPosition(0);
+    elevatorEncoder.setPosition(0);
 
-    /*
     coralRotateMotor = new SparkMax(coralRotateMotorCANId, MotorType.kBrushless);
-    coralIntakeMotor = new SparkMax(coralIntakeMotorCANId, MotorType.kBrushless);
+    coralEncoder = coralRotateMotor.getAbsoluteEncoder();
+    coralPidController = new PIDController(1, .01, 0);
+    algaePidController = new PIDController(3, .0003, 0);
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
-
-    coralEncoder = coralRotateMotor.getAbsoluteEncoder();
     algaeEncoder = algaeRotateMotor.getAbsoluteEncoder();
-
-    coralPidController = new PIDController(.015, .0003, 0);
-    algaePidController = new PIDController(.015, .0003, 0);
-    */
     elevatorPidController = new PIDController(.3, .001, 0);
+    coralIntakeMotor = new SparkMax(coralIntakeMotorCANId, MotorType.kBrushless);
   }
 
   @Override
   public void periodic() {
     updateElevator();
-    // updateAlgae();
-    // updateCoral();
+    updateAlgae();
+    updateCoral();
+    SmartDashboard.putNumber("coralPosition", coralEncoder.getPosition());
+    SmartDashboard.putNumber("TargetAngle", targetPosition.angle);
+    SmartDashboard.putNumber("TargetPosition", targetPosition.position);
     SmartDashboard.putNumber("ElevatorEncoder", elevatorEncoder.getPosition());
     SmartDashboard.putBoolean("Switch", bottomSensor.get());
   }
@@ -86,35 +85,45 @@ public class ElevatorSubsystem extends SubsystemBase {
       } else if (speed < -.1) {
         speed = -.1;
       }
+      SmartDashboard.putNumber("elevatorSpeedXX", elevatorMotor.get());
+      SmartDashboard.putNumber("elevatorSpeed", speed);
 
       elevatorMotor.set(speed);
+      SmartDashboard.putNumber("elevatorSpeedX", elevatorMotor.get());
     } else {
       elevatorMotor.set(0);
     }
   }
 
   private void updateAlgae() {
-    /*if (targetPosition != Position.ELV_off) {
-      algaePidController.setSetpoint(targetPosition.angle);
-      double speed = algaePidController.calculate(algaeEncoder.getPosition());
-      if(speed > .2) {
-        speed = .2;
-      } else if ( speed < -.2) {
-        speed = -.2;
+    if (targetPosition == Position.ELV_4 && elevatorEncoder.getPosition() > 0) {
+      if (elevatorEncoder.getPosition() > 28) {
+        algaePidController.setSetpoint(.77);
+      } else {
+        algaePidController.setSetpoint(.67);
       }
-
+      double speed = algaePidController.calculate(algaeEncoder.getPosition());
+      if (speed > .2) {
+        speed = .2;
+      } else if (speed < -.3) {
+        speed = -.3;
+      }
+      SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
       algaeRotateMotor.set(-speed);
+      algaeIntakeMotor.set(-.5);
     } else {
       algaeRotateMotor.set(0);
-    }*/
+      algaeIntakeMotor.set(0);
+    }
   }
 
   private void updateCoral() {
     if (targetPosition != Position.ELV_off) {
       coralPidController.setSetpoint(targetPosition.angle);
       double speed = coralPidController.calculate(coralEncoder.getPosition());
-      if (speed > .2) {
-        speed = .2;
+      SmartDashboard.putNumber("coralSpeed", speed);
+      if (speed > .5) {
+        speed = .5;
       } else if (speed < -.2) {
         speed = -.2;
       }
@@ -130,11 +139,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void coralOut() {
-    coralIntakeMotor.set(.3);
+    coralIntakeMotor.set(-.6);
   }
 
   public void coralIn() {
-    coralIntakeMotor.set(-.3);
+    coralIntakeMotor.set(.8);
   }
 
   public void coralOff() {
@@ -153,11 +162,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     algaeIntakeMotor.set(0);
   }
 
+  public double getCoralCurrent() {
+    return coralIntakeMotor.getOutputCurrent();
+  }
+
   public double getCoralVelocity() {
-    return coralRotateMotor.getEncoder().getVelocity();
+    return coralIntakeMotor.getEncoder().getVelocity();
   }
 
   public void setSpeed(double speed) {
-    coralRotateMotor.set(speed);
+    algaeRotateMotor.set(speed);
   }
 }
