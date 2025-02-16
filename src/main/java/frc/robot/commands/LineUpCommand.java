@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.vision.ReefSide;
 import frc.robot.subsystems.vision.TrajectoryCommandFactory;
@@ -28,7 +29,9 @@ public class LineUpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     ReefSide reefSide = m_visionSubsystem.findClosest();
+    SmartDashboard.getString("ReefSide", reefSide.getDescription());
     if (m_isLeft) {
       subCommand =
           m_TrajectoryCommandFactory.getTheAwesomestTrajectoryCommand(reefSide.getLeftPosition());

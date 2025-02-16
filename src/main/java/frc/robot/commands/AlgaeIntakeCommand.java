@@ -22,7 +22,9 @@ public class AlgaeIntakeCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_elevatorSubsystem.setAlgaeSpeed(-1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

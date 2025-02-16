@@ -38,23 +38,29 @@ public final class Constants {
   public static enum Position {
 
     // Elevator Positions
-    ELV_off(0, 0),
-    ELV_1(0, .7),
-    ELV_2(1, .8),
-    ELV_3(10, .6),
-    ELV_4(30, .6),
-    ELV_Intake(0, .84),
+    ELV_off(0, 0, 0),
+    ELV_1(0, .7, 0),
+    ELV_2(6, .675, 0),
+    ELV_3(16, .675, 0),
+    ELV_4(30, .7, .77),
+    ELV_Intake(0, .8, 0),
+    ELV_IntakeTravel(0, .95, 0),
+
+    // Algae Spit
+    Algae_Spit(30, 0.56, .35),
 
     // Climb Positions,
-    Climb_Out(0, 0),
-    Climb_In(0, 0);
+    Climb_Out(0, 0, 0),
+    Climb_In(0, 0, 0);
 
     public final double position;
     public final double angle;
+    public final double algae;
 
-    Position(double p, double a) {
+    Position(double p, double a, double algae) {
       position = p;
       angle = a;
+      this.algae = algae;
     }
 
     public double angle() {

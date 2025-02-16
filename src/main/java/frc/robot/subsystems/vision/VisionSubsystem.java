@@ -123,52 +123,87 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   private List<ReefSide> blueReefSidess;
+  private List<Pose2d> coralStationPoints;
 
   private void initReefss() {
     blueReefSidess = new ArrayList<ReefSide>();
+    coralStationPoints = new ArrayList<Pose2d>();
     blueReefSidess.add(
         new ReefSide(
-            new Pose2d(new Translation2d(7, 4), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(new Translation2d(6.971, 4), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(5.86, 3.9),
+                new Translation2d(5.97, 3.8),
                 new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(5.821, 4.288),
+                new Translation2d(6.04, 4.22),
                 new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
-            "BlueRight"));
+            "BlueRight")); // AT 21
     blueReefSidess.add(
         new ReefSide(
             new Pose2d(
-                new Translation2d(5.821, 1.782), new Rotation2d(0)), // Reef Side Position (away)
+                new Translation2d(5.850, 1.919), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(5.004, 2.785),
+                new Translation2d(5.58, 1.91),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(5.319, 2.921),
+                new Translation2d(5.89, 2.11),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
-            "BlueRightBottom"));
+            "BlueRightBottom")); // AT 22
     blueReefSidess.add(
         new ReefSide(
             new Pose2d(
-                new Translation2d(3.217, 1.734), new Rotation2d(0)), // Reef Side Position (away)
+                new Translation2d(2.915, 1.558), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(3.091, 1.792),
+                new Translation2d(3.3, 1.92),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(3.422, 1.675),
+                new Translation2d(3.68, 1.72),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
-            "BlueLeftBottom"));
+            "BlueLeftBottom")); // AT 17
     blueReefSidess.add(
         new ReefSide(
             new Pose2d(
-                new Translation2d(2.126, 4.025), new Rotation2d(0)), // Reef Side Position (away)
+                new Translation2d(2.174, 4.064), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(2.096, 4.171),
+                new Translation2d(2.05, 3.98),
                 new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(2.087, 3.840),
+                new Translation2d(2.13, 3.62),
                 new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
-            "BlueLeft"));
+            "BlueLeft")); // AT 18
+
+    blueReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(3.042, 6.355), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(3.25, 5.98),
+                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(3.53, 6.24),
+                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+            "BlueRightTop")); // AT 19
+
+    blueReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(5.957, 6.316), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(5.65, 6.17),
+                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(5.22, 6.37),
+                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+            "BlueLeftTop")); // AT 20
+
+    coralStationPoints.add(
+        new Pose2d(new Translation2d(1.648, .807), new Rotation2d(-120))); // Blue Bottom
+    coralStationPoints.add(
+        new Pose2d(new Translation2d(1.697, 7.184), new Rotation2d(120))); // Blue Top
+    coralStationPoints.add(
+        new Pose2d(new Translation2d(16.000, .895), new Rotation2d(-60))); // Red Bottom
+    coralStationPoints.add(
+        new Pose2d(new Translation2d(16.087, 6.999), new Rotation2d(60))); // Red Top
   }
 
   public ReefSide findClosest() {

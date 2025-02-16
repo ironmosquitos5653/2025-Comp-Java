@@ -40,8 +40,9 @@ public class CoralIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevatorSubsystem.coralOff();
+    m_elevatorSubsystem.coralTravel();
     SmartDashboard.putBoolean("CoralOn", false);
+    m_elevatorSubsystem.setPosition(Position.ELV_IntakeTravel);
   }
 
   // Returns true when the command should end.

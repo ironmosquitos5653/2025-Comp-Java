@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -15,21 +17,37 @@ public class AlgaeSpitCommand extends Command {
     m_elevatorSubsystem = elevatorSubsystem;
   }
 
+  Timer timer;
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_elevatorSubsystem.setPosition(Position.Algae_Spit);
+    timer = null;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_elevatorSubsystem.getElevatorPosition() > Position.Algae_Spit.position - .1) {
+      m_elevatorSubsystem.setAlgaeSpeed(1);
+      if (timer == null) {
+        timer = new Timer();
+        timer.start();
+      }
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_elevatorSubsystem.setPosition(Position.ELV_Intake);
+    m_elevatorSubsystem.setAlgaeSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer != null && timer.hasElapsed(1);
   }
 }

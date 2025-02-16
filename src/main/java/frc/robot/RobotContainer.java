@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.Position;
+import frc.robot.commands.AlgaeIntakeCommand;
+import frc.robot.commands.AlgaeSpitCommand;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
@@ -73,6 +75,7 @@ public class RobotContainer {
                 new ModuleIOSpark(3));
 
         visionSubsystem = new VisionSubsystem(drive);
+        trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
         // climbSubsystem = new ClimbSubsystem();
         elevatorSubsystem = new ElevatorSubsystem();
 
@@ -163,19 +166,9 @@ public class RobotContainer {
     // climbSubsystem.setDefaultCommand(new RunCommand(() -> {}, climbSubsystem));
     elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {}, elevatorSubsystem));
 
-    driveController
-        .x()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_1)));
-    driveController
-        .a()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_2)));
-    driveController
-        .b()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_3)));
-    driveController
-        .y()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
-    driveController.leftBumper().whileTrue(DriveCommands.strafe(drive, !false));
+    driveController.y().onTrue(new AlgaeIntakeCommand(elevatorSubsystem)); // Reset
+    driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
+
     // Controls
     coPilotController
         .x()
@@ -190,14 +183,16 @@ public class RobotContainer {
         .y()
         .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
 
-    // coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
+
+    // LineUp Commands
     driveController
         .leftBumper()
         .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, true));
     driveController
         .rightBumper()
         .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, false));
+
     coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
     // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
