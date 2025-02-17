@@ -197,13 +197,21 @@ public class VisionSubsystem extends SubsystemBase {
             "BlueLeftTop")); // AT 20
 
     coralStationPoints.add(
-        new Pose2d(new Translation2d(1.648, .807), new Rotation2d(-120))); // Blue Bottom
+        new Pose2d(
+            new Translation2d(1.648, .807),
+            new Rotation2d(Units.degreesToRadians(-120)))); // Blue Bottom
     coralStationPoints.add(
-        new Pose2d(new Translation2d(1.697, 7.184), new Rotation2d(120))); // Blue Top
+        new Pose2d(
+            new Translation2d(1.697, 7.184),
+            new Rotation2d(Units.degreesToRadians(120)))); // Blue Top
     coralStationPoints.add(
-        new Pose2d(new Translation2d(16.000, .895), new Rotation2d(-60))); // Red Bottom
+        new Pose2d(
+            new Translation2d(16.14, 1.04),
+            new Rotation2d(Units.degreesToRadians(-60)))); // Red Bottom
     coralStationPoints.add(
-        new Pose2d(new Translation2d(16.087, 6.999), new Rotation2d(60))); // Red Top
+        new Pose2d(
+            new Translation2d(16.087, 6.999),
+            new Rotation2d(Units.degreesToRadians(60)))); // Red Top
   }
 
   public ReefSide findClosest() {
@@ -219,6 +227,22 @@ public class VisionSubsystem extends SubsystemBase {
         }
       }
       SmartDashboard.putString("Closest", closest.getDescription());
+    }
+    return closest;
+  }
+
+  public Pose2d findClosestCoralStation() {
+    Pose2d pose = m_driveSubsystem.getPose();
+    Pose2d closest = null;
+    double distance = 100;
+    if (coralStationPoints != null) {
+      for (Pose2d p : coralStationPoints) {
+        double d = p.getTranslation().getDistance(pose.getTranslation());
+        if (d < distance) {
+          distance = d;
+          closest = p;
+        }
+      }
     }
     return closest;
   }

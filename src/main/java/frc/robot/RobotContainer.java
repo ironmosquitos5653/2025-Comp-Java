@@ -28,6 +28,7 @@ import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.LineUpCommand;
+import frc.robot.commands.LineUpCommandStation;
 import frc.robot.commands.TestPID;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
@@ -36,6 +37,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
+import frc.robot.subsystems.vision.AutonomousManager;
 import frc.robot.subsystems.vision.TrajectoryCommandFactory;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -57,6 +59,8 @@ public class RobotContainer {
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
   private final CommandXboxController coPilotController = new CommandXboxController(1);
+
+  private final AutonomousManager autonomousManager;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -110,7 +114,8 @@ public class RobotContainer {
         elevatorSubsystem = null;
         break;
     }
-
+    autonomousManager = new AutonomousManager(drive, elevatorSubsystem, trajectoryCommandFactory);
+    autonomousManager.initialize();
     // trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
 
     // Set up auto routines
@@ -168,6 +173,7 @@ public class RobotContainer {
 
     driveController.y().onTrue(new AlgaeIntakeCommand(elevatorSubsystem)); // Reset
     driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
+    driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
 
     // Controls
     coPilotController

@@ -170,6 +170,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     return coralIntakeMotor.getEncoder().getVelocity();
   }
 
+  public double getAlgaeVelocity() {
+    return algaeIntakeMotor.getEncoder().getVelocity();
+  }
+
   public void setSpeed(double speed) {
     coralRotateMotor.set(speed);
   }

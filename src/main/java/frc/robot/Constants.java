@@ -43,7 +43,7 @@ public final class Constants {
     ELV_2(6, .675, 0),
     ELV_3(16, .675, 0),
     ELV_4(30, .7, .77),
-    ELV_Intake(0, .8, 0),
+    ELV_Intake(0, .85, 0),
     ELV_IntakeTravel(0, .95, 0),
 
     // Algae Spit
