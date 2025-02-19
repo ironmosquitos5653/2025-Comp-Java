@@ -43,6 +43,7 @@ public class CoralIntakeCommand extends Command {
     m_elevatorSubsystem.coralTravel();
     SmartDashboard.putBoolean("CoralOn", false);
     m_elevatorSubsystem.setPosition(Position.ELV_IntakeTravel);
+    m_elevatorSubsystem.setRumble();
   }
 
   // Returns true when the command should end.

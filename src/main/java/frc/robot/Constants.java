@@ -39,12 +39,12 @@ public final class Constants {
 
     // Elevator Positions
     ELV_off(0, 0, 0),
-    ELV_1(0, .7, 0),
-    ELV_2(6, .675, 0),
-    ELV_3(16, .675, 0),
-    ELV_4(30, .7, .77),
-    ELV_Intake(0, .85, 0),
-    ELV_IntakeTravel(0, .95, 0),
+    ELV_1(0, .685, 0),
+    ELV_2(5.8, .66, 0),
+    ELV_3(16, .66, 0),
+    ELV_4(30, .69, .77),
+    ELV_Intake(0, .7, 0),
+    ELV_IntakeTravel(0, .8, 0),
 
     // Algae Spit
     Algae_Spit(30, 0.56, .35),

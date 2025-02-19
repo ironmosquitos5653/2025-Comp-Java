@@ -10,8 +10,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Position;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -42,8 +45,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private Position targetPosition = Position.ELV_off;
 
   private DigitalInput bottomSensor = new DigitalInput(0);
+  CommandXboxController m_CommandXboxController;
 
-  public ElevatorSubsystem() {
+  public ElevatorSubsystem(CommandXboxController m_commandXboxController) {
     elevatorMotor = new SparkMax(elevatorMotorCANId, MotorType.kBrushless);
     elevatorMotorFollower = new SparkMax(elevatorMotorFollowerCANId, MotorType.kBrushless);
     elevatorMotorFollower.isFollower();
@@ -52,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     coralRotateMotor = new SparkMax(coralRotateMotorCANId, MotorType.kBrushless);
     coralEncoder = coralRotateMotor.getAbsoluteEncoder();
-    coralPidController = new PIDController(1, .01, 0);
+    coralPidController = new PIDController(2, .01, 0);
     algaePidController = new PIDController(3, .0003, 0);
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
@@ -128,6 +132,24 @@ public class ElevatorSubsystem extends SubsystemBase {
     } else {
       coralRotateMotor.set(0);
     }
+  }
+
+  Timer timer = null;
+
+  public void updateRumble() {
+    if (timer != null) {
+      if (timer.hasElapsed(.5)) {
+        m_CommandXboxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+      } else {
+        timer = null;
+        m_CommandXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
+      }
+    }
+  }
+
+  public void setRumble() {
+    timer = new Timer();
+    timer.start();
   }
 
   public void setPosition(Position p) {

@@ -72,18 +72,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Test6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Test7"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": null

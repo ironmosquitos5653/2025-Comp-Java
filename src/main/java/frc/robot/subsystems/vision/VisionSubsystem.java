@@ -27,7 +27,12 @@ public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
   private final Field2d field2d = new Field2d();
 
-  private Transform3d cameraPose =
+  private Transform3d highCameraTransform =
+      new Transform3d(
+          new Translation3d(
+              Units.inchesToMeters(-10.75), Units.inchesToMeters(10.175), Units.inchesToMeters(0)),
+          new Rotation3d(0, 0, 0));
+  private Transform3d lowCameraTransform =
       new Transform3d(
           new Translation3d(
               Units.inchesToMeters(-12.5), Units.inchesToMeters(10), Units.inchesToMeters(0)),
@@ -47,17 +52,21 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     findClosest();
+    updateCamera("limelight-high", highCameraTransform);
+    // updateCamera("limelight-low", lowCameraTransform);
+  }
+
+  public void updateCamera(String camera, Transform3d cameraTransform3d) {
     boolean useMegaTag2 = !true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
-      LimelightHelpers.PoseEstimate mt1 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(camera);
       if (mt1 != null) {
         if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
           if (mt1.rawFiducials[0].ambiguity > .7) {
             doRejectUpdate = true;
           }
-          if (mt1.rawFiducials[0].distToCamera > 3) {
+          if (mt1.rawFiducials[0].distToCamera > 2) {
             doRejectUpdate = true;
           }
         }
@@ -68,7 +77,7 @@ public class VisionSubsystem extends SubsystemBase {
         if (!doRejectUpdate) {
           SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
           m_driveSubsystem.addVisionMeasurement(
-              cameraTransform(mt1.pose),
+              cameraTransform(mt1.pose, cameraTransform3d),
               mt1.timestampSeconds,
               VecBuilder.fill(.1, .1, .1)); // 9999999));
           SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
@@ -76,9 +85,9 @@ public class VisionSubsystem extends SubsystemBase {
       }
     } else if (useMegaTag2 == true) {
       LimelightHelpers.SetRobotOrientation(
-          "limelight-high", m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+          camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-high");
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
 
       if (mt2 != null) {
 
@@ -93,15 +102,17 @@ public class VisionSubsystem extends SubsystemBase {
         }
         if (!doRejectUpdate) {
           m_driveSubsystem.addVisionMeasurement(
-              cameraTransform(mt2.pose), mt2.timestampSeconds, VecBuilder.fill(.5, .5, .5));
+              cameraTransform(mt2.pose, cameraTransform3d),
+              mt2.timestampSeconds,
+              VecBuilder.fill(.5, .5, .5));
         }
       }
     }
     updateField();
   }
 
-  public Pose2d cameraTransform(Pose2d pose) {
-    return new Pose3d(pose).transformBy(cameraPose).toPose2d();
+  public Pose2d cameraTransform(Pose2d pose, Transform3d cameraTransform) {
+    return new Pose3d(pose).transformBy(cameraTransform).toPose2d();
   }
 
   public void updateField() {
@@ -154,10 +165,10 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(2.915, 1.558), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(3.3, 1.92),
+                new Translation2d(3.549, 2.66),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(3.68, 1.72),
+                new Translation2d(3.832, 2.5),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueLeftBottom")); // AT 17
     blueReefSidess.add(
