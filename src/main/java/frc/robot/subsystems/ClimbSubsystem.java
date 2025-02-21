@@ -5,9 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
@@ -21,8 +21,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
-    climb = new SparkMax(climbMotorCANId, MotorType.kBrushless);
-    encoder = climb.getAbsoluteEncoder();
+    // climb = new SparkMax(climbMotorCANId, MotorType.kBrushless);
+    // encoder = climb.getAbsoluteEncoder();
     pidController = new PIDController(.015, .0003, 0);
   }
 
@@ -34,6 +34,23 @@ public class ClimbSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (targetAngle != 0) {
+      pidController.setSetpoint(targetAngle);
+      double speed = pidController.calculate(encoder.getPosition());
+      if (speed > .2) {
+        speed = .2;
+      } else if (speed < -.3) {
+        speed = -.3;
+      }
+      SmartDashboard.putNumber("climbIntakeSpeed", climb.getEncoder().getVelocity());
+      climb.set(-speed);
+    } else {
+      climb.set(0);
+      climb.set(0);
+    }
+  }
+
+  public void setSpeed(double speed) {
+    climb.set(speed);
   }
 }

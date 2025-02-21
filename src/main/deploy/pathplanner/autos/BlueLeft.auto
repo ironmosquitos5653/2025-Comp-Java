@@ -7,19 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestLeft1"
+            "pathName": "BL1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TestLeft2"
+            "pathName": "BL2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TestLeft3"
+            "pathName": "BL3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL5"
           }
         }
       ]

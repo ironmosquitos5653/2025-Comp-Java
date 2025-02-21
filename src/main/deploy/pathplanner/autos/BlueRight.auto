@@ -5,21 +5,70 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "TestRight1"
+            "name": "SetCoral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TestRight2"
+            "pathName": "BR1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LiftElevator"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BR2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "TestRight3"
+            "pathName": "BR3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR5"
           }
         }
       ]

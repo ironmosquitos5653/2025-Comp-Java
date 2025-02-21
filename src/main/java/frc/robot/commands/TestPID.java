@@ -5,14 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class TestPID extends Command {
   ElevatorSubsystem m_elevatorSubsystem;
+  ClimbSubsystem m_climbsubsystem;
 
-  public TestPID(ElevatorSubsystem elevatorSubsystem) {
+  public TestPID(ElevatorSubsystem elevatorSubsystem, ClimbSubsystem climbsubsystem) {
     m_elevatorSubsystem = elevatorSubsystem;
+    m_climbsubsystem = climbsubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -23,6 +26,7 @@ public class TestPID extends Command {
   @Override
   public void execute() {
     m_elevatorSubsystem.setSpeed(.2);
+    // m_climbsubsystem.setSpeed(.2);
   }
 
   // Called once the command ends or is interrupted.

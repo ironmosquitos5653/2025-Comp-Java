@@ -47,7 +47,7 @@ public final class Constants {
     ELV_IntakeTravel(0, .8, 0),
 
     // Algae Spit
-    Algae_Spit(30, 0.56, .35),
+    Algae_Spit(30, 0.56, .08),
 
     // Climb Positions,
     Climb_Out(0, 0, 0),

@@ -57,7 +57,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     coralRotateMotor = new SparkMax(coralRotateMotorCANId, MotorType.kBrushless);
     coralEncoder = coralRotateMotor.getAbsoluteEncoder();
     coralPidController = new PIDController(2, .01, 0);
-    algaePidController = new PIDController(3, .0003, 0);
+    algaePidController = new PIDController(1.5, .0003, 0);
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
     algaeEncoder = algaeRotateMotor.getAbsoluteEncoder();
@@ -103,7 +103,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
       algaePidController.setSetpoint(targetPosition.algae);
-      double speed = algaePidController.calculate(algaeEncoder.getPosition());
+      double speed = -algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
         speed = .2;
       } else if (speed < -.3) {
@@ -197,7 +197,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    coralRotateMotor.set(speed);
+    algaeRotateMotor.set(speed);
   }
 
   public double getElevatorPosition() {

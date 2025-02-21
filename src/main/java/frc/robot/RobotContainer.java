@@ -30,6 +30,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.LineUpCommand;
 import frc.robot.commands.LineUpCommandStation;
 import frc.robot.commands.TestPID;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -52,7 +53,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final VisionSubsystem visionSubsystem;
-  // private final ClimbSubsystem climbSubsystem;
+  private final ClimbSubsystem climbSubsystem;
   private final ElevatorSubsystem elevatorSubsystem;
   private TrajectoryCommandFactory trajectoryCommandFactory;
 
@@ -80,7 +81,7 @@ public class RobotContainer {
 
         visionSubsystem = new VisionSubsystem(drive);
         trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
-        // climbSubsystem = new ClimbSubsystem();
+        climbSubsystem = null;
         elevatorSubsystem = new ElevatorSubsystem(driveController);
 
         break;
@@ -95,7 +96,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         visionSubsystem = null;
-        // climbSubsystem = null;
+        climbSubsystem = null;
         elevatorSubsystem = null;
         break;
 
@@ -110,7 +111,7 @@ public class RobotContainer {
                 new ModuleIO() {});
 
         visionSubsystem = null;
-        // climbSubsystem = null;
+        climbSubsystem = null;
         elevatorSubsystem = null;
         break;
     }
@@ -203,7 +204,7 @@ public class RobotContainer {
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
     // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
 
-    driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem));
+    driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem, climbSubsystem));
   }
 
   /**
