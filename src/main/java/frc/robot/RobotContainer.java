@@ -189,6 +189,15 @@ public class RobotContainer {
     coPilotController
         .y()
         .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
+    coPilotController
+        .povUp()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4_algae)));
+    coPilotController
+        .povDown()
+        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4_algaeLow)));
+
+
+    
 
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
 

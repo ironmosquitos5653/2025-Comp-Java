@@ -102,6 +102,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
+      algaeIntakeMotor.set(1);
       algaePidController.setSetpoint(targetPosition.algae);
       double speed = algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
@@ -111,9 +112,13 @@ public class ElevatorSubsystem extends SubsystemBase {
       }
       SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
       algaeRotateMotor.set(-speed);
+
+      if (algaeIntakeMotor.getEncoder().getVelocity() < 1  && targetPosition != Position.Algae_Spit) {
+        setPosition(Position.ELV_4);
+      }
     } else {
       algaeRotateMotor.set(0);
-      algaeIntakeMotor.set(0);
+      //algaeIntakeMotor.set(0);
     }
   }
 

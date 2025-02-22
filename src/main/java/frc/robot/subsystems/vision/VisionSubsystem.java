@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.vision.LimelightHelpers.RawFiducial;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,15 +54,19 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     findClosest();
-    updateCamera("limelight-high", highCameraTransform);
+    updateCamera(highCameraTransform);
     // updateCamera("limelight-low", lowCameraTransform);
   }
 
-  public void updateCamera(String camera, Transform3d cameraTransform3d) {
+  public void updateCamera(Transform3d cameraTransform3d) {
     boolean useMegaTag2 = !true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(camera);
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+      LimelightHelpers.PoseEstimate mt1L = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
+      if(mt1L.rawFiducials[0].distToCamera<mt1.rawFiducials[0].distToCamera){
+        mt1 = mt1L;
+      }
       if (mt1 != null) {
         if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
           if (mt1.rawFiducials[0].ambiguity > .7) {
@@ -84,11 +90,17 @@ public class VisionSubsystem extends SubsystemBase {
         }
       }
     } else if (useMegaTag2 == true) {
-      LimelightHelpers.SetRobotOrientation(
-          camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(camera);
+      String camera = "limelight-high";
 
+          LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+          LimelightHelpers.PoseEstimate mt2L = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
+          if(mt2L.rawFiducials[0].distToCamera<mt2.rawFiducials[0].distToCamera){
+            mt2 = mt2L;
+            camera = "limelight-low";
+          }
+          LimelightHelpers.SetRobotOrientation(
+            camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+  
       if (mt2 != null) {
 
         if (Math.abs(m_driveSubsystem.getTurnRate())
