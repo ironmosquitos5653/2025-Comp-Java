@@ -150,11 +150,17 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   private List<ReefSide> blueReefSidess;
+  private List<ReefSide> redReefSidess;
   private List<Pose2d> coralStationPoints;
 
   private void initReefss() {
+    initBlueReefPoints();
+    initRedReefPoints();
+    initCoralStationPoints();
+  }
+
+  private void initBlueReefPoints() {
     blueReefSidess = new ArrayList<ReefSide>();
-    coralStationPoints = new ArrayList<Pose2d>();
     blueReefSidess.add(
         new ReefSide(
             new Pose2d(new Translation2d(6.971, 4), new Rotation2d(0)), // Reef Side Position (away)
@@ -170,7 +176,7 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(5.850, 1.919), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(5, 2.76),
+                new Translation2d(5.0, 2.76),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(5.28, 2.89),
@@ -204,7 +210,7 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(3.042, 6.355), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(4, 5.32),
+                new Translation2d(4.0, 5.32),
                 new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(3.64, 5.12),
@@ -219,16 +225,23 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(5.40, 5.07),
                 new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(5, 5.31),
+                new Translation2d(5.0, 5.31),
                 new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
             "BlueLeftTop")); // AT 20
+  }
 
+
+  private void initRedReefPoints() {
+    redReefSidess = new ArrayList<ReefSide>();
+  }
     /*
     AT 11
     Left ->  x:12.20   y:2.90
     Right -> x:12.55   y:2.71
     */
-
+  private void initCoralStationPoints()
+  {
+    coralStationPoints = new ArrayList<Pose2d>();
     coralStationPoints.add(
         new Pose2d(
             new Translation2d(1.648, .807),
