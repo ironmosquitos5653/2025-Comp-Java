@@ -230,17 +230,15 @@ public class VisionSubsystem extends SubsystemBase {
             "BlueLeftTop")); // AT 20
   }
 
-
   private void initRedReefPoints() {
     redReefSidess = new ArrayList<ReefSide>();
   }
-    /*
-    AT 11
-    Left ->  x:12.20   y:2.90
-    Right -> x:12.55   y:2.71
-    */
-  private void initCoralStationPoints()
-  {
+  /*
+  AT 11
+  Left ->  x:12.20   y:2.90
+  Right -> x:12.55   y:2.71
+  */
+  private void initCoralStationPoints() {
     coralStationPoints = new ArrayList<Pose2d>();
     coralStationPoints.add(
         new Pose2d(
