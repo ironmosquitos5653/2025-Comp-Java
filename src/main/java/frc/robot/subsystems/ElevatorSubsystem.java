@@ -113,12 +113,13 @@ public class ElevatorSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
       algaeRotateMotor.set(-speed);
 
-      if (algaeIntakeMotor.getEncoder().getVelocity() < 1  && targetPosition != Position.Algae_Spit) {
+      if (algaeIntakeMotor.getEncoder().getVelocity() < 1
+          && targetPosition != Position.Algae_Spit) {
         setPosition(Position.ELV_4);
       }
     } else {
       algaeRotateMotor.set(0);
-      //algaeIntakeMotor.set(0);
+      // algaeIntakeMotor.set(0);
     }
   }
 
@@ -170,7 +171,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void coralTravel() {
-    coralIntakeMotor.set(.2);
+    coralIntakeMotor.set(.3);
   }
 
   public void coralOff() {

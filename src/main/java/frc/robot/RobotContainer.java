@@ -82,7 +82,7 @@ public class RobotContainer {
         visionSubsystem = new VisionSubsystem(drive);
         trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
         climbSubsystem = null;
-        elevatorSubsystem = new ElevatorSubsystem(driveController);
+        elevatorSubsystem = new ElevatorSubsystem(coPilotController);
 
         break;
 
@@ -195,9 +195,6 @@ public class RobotContainer {
     coPilotController
         .povDown()
         .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4_algaeLow)));
-
-
-    
 
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
 

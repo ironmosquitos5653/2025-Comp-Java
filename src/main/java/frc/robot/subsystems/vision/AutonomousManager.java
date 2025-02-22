@@ -33,6 +33,9 @@ public class AutonomousManager {
     register("SetCoral", new SetCoralCommand(m_elevatorSubsystem));
     register(
         "LiftElevator", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_4)));
+    register(
+        "LiftElevatorAuto",
+        Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_4_auto)));
     // wait 1s
     register("SpitCoral", new CoralSpitCommand(m_elevatorSubsystem));
     register("IntakeOn", new CoralIntakeCommand(m_elevatorSubsystem));

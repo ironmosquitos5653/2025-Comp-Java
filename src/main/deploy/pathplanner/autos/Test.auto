@@ -5,9 +5,51 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SetCoral"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "BR3"
+            "pathName": "BR1a"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LiftElevator"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR1b"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR2"
           }
         }
       ]

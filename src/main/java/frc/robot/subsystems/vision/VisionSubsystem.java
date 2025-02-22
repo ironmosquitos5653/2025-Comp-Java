@@ -19,8 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.vision.LimelightHelpers.RawFiducial;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +60,14 @@ public class VisionSubsystem extends SubsystemBase {
     boolean useMegaTag2 = !true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
-      LimelightHelpers.PoseEstimate mt1L = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
-      if(mt1L.rawFiducials[0].distToCamera<mt1.rawFiducials[0].distToCamera){
-        mt1 = mt1L;
+      LimelightHelpers.PoseEstimate mt1 =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+      LimelightHelpers.PoseEstimate mt1L =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
+      if (mt1L.rawFiducials.length > 0
+          && mt1.rawFiducials.length > 0
+          && mt1L.rawFiducials[0].distToCamera < mt1.rawFiducials[0].distToCamera) {
+        // mt1 = mt1L;
       }
       if (mt1 != null) {
         if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
@@ -92,15 +94,17 @@ public class VisionSubsystem extends SubsystemBase {
     } else if (useMegaTag2 == true) {
       String camera = "limelight-high";
 
-          LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
-          LimelightHelpers.PoseEstimate mt2L = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
-          if(mt2L.rawFiducials[0].distToCamera<mt2.rawFiducials[0].distToCamera){
-            mt2 = mt2L;
-            camera = "limelight-low";
-          }
-          LimelightHelpers.SetRobotOrientation(
-            camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-  
+      LimelightHelpers.PoseEstimate mt2 =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
+      LimelightHelpers.PoseEstimate mt2L =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
+      if (mt2L.rawFiducials[0].distToCamera < mt2.rawFiducials[0].distToCamera) {
+        mt2 = mt2L;
+        camera = "limelight-low";
+      }
+      LimelightHelpers.SetRobotOrientation(
+          camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+
       if (mt2 != null) {
 
         if (Math.abs(m_driveSubsystem.getTurnRate())
@@ -166,10 +170,10 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(5.850, 1.919), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(4.92, 2.67),
+                new Translation2d(5, 2.76),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(5.13, 2.91),
+                new Translation2d(5.28, 2.89),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueRightBottom")); // AT 22
     blueReefSidess.add(
@@ -177,10 +181,10 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(2.915, 1.558), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(3.59, 2.94),
+                new Translation2d(3.59, 2.98),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(3.832, 2.5),
+                new Translation2d(3.59, 2.98),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueLeftBottom")); // AT 17
     blueReefSidess.add(
