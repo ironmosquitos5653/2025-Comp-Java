@@ -168,10 +168,10 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(2.915, 1.558), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
                 new Translation2d(3.61, 2.92),
-                new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(60))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(3.88, 2.76),
-                new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(60))), // Right Position (On Reef)
             "BlueLeftBottom")); // AT 17
     blueReefSidess.add(
         new ReefSide(
@@ -179,10 +179,10 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(2.174, 4.064), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
                 new Translation2d(3.13, 4.27),
-                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(0))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(3.09, 3.92),
-                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(0))), // Right Position (On Reef)
             "BlueLeft")); // AT 18
 
     blueReefSidess.add(
@@ -191,10 +191,10 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(3.042, 6.355), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
                 new Translation2d(4.01, 5.34),
-                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(-60))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(3.78, 5.19),
-                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(-60))), // Right Position (On Reef)
             "BlueRightTop")); // AT 19
 
     blueReefSidess.add(
@@ -203,10 +203,10 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(5.957, 6.316), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
                 new Translation2d(5.37, 5.12),
-                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(-120))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(5.10, 5.21),
-                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+                new Rotation2d(Units.degreesToRadians(-120))), // Right Position (On Reef)
             "BlueLeftTop")); // AT 20
 
     blueReefSidess.add(
