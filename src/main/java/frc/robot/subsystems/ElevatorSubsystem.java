@@ -103,7 +103,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
       algaePidController.setSetpoint(targetPosition.algae);
-      double speed = -algaePidController.calculate(algaeEncoder.getPosition());
+      double speed = algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
         speed = .2;
       } else if (speed < -.3) {
