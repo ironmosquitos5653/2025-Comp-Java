@@ -161,7 +161,7 @@ public class VisionSubsystem extends SubsystemBase {
 
   private void initBlueReefPoints() {
     blueReefSidess = new ArrayList<ReefSide>();
-    
+
     blueReefSidess.add(
         new ReefSide(
             new Pose2d(
