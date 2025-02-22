@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class GenerateRed {
 
-  public static int OFFSET = 35;
+  public static double OFFSET = 9.26;
 
   public static void main(String[] args) throws IOException {
     // System.out.println(Double.parseDouble("5"));

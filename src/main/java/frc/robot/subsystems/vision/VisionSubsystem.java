@@ -30,7 +30,7 @@ public class VisionSubsystem extends SubsystemBase {
   private Transform3d highCameraTransform =
       new Transform3d(
           new Translation3d(
-              Units.inchesToMeters(-10.75), Units.inchesToMeters(10.175), Units.inchesToMeters(0)),
+              Units.inchesToMeters(-9), Units.inchesToMeters(10.175), Units.inchesToMeters(0)),
           new Rotation3d(0, 0, 0));
   private Transform3d lowCameraTransform =
       new Transform3d(
@@ -62,13 +62,7 @@ public class VisionSubsystem extends SubsystemBase {
     if (useMegaTag2 == false) {
       LimelightHelpers.PoseEstimate mt1 =
           LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
-      LimelightHelpers.PoseEstimate mt1L =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
-      if (mt1L.rawFiducials.length > 0
-          && mt1.rawFiducials.length > 0
-          && mt1L.rawFiducials[0].distToCamera < mt1.rawFiducials[0].distToCamera) {
-        // mt1 = mt1L;
-      }
+
       if (mt1 != null) {
         if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
           if (mt1.rawFiducials[0].ambiguity > .7) {
@@ -96,12 +90,7 @@ public class VisionSubsystem extends SubsystemBase {
 
       LimelightHelpers.PoseEstimate mt2 =
           LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-high");
-      LimelightHelpers.PoseEstimate mt2L =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-low");
-      if (mt2L.rawFiducials[0].distToCamera < mt2.rawFiducials[0].distToCamera) {
-        mt2 = mt2L;
-        camera = "limelight-low";
-      }
+
       LimelightHelpers.SetRobotOrientation(
           camera, m_driveSubsystem.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
@@ -231,15 +220,88 @@ public class VisionSubsystem extends SubsystemBase {
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueRightBottom")); // AT 22
   }
+  /*RedReef AT 7 left  x: 11.34  y: 3.67
+   right  x:14.44 y:4.07
+
+   5.82 -- 11.34
+   5.91 -- 14.44
+  */
 
   private void initRedReefPoints() {
     redReefSidess = new ArrayList<ReefSide>();
+
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(12.1755, 1.558), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(12.871, 2.92),
+                new Rotation2d(Units.degreesToRadians(60))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(13.148, 2.76),
+                new Rotation2d(Units.degreesToRadians(60))), // Right Position (On Reef)
+            "RedLeftBottom")); // AT 11
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(11.4344, 4.064), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(12.393, 4.27),
+                new Rotation2d(Units.degreesToRadians(0))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(12.359, 3.92),
+                new Rotation2d(Units.degreesToRadians(0))), // Right Position (On Reef)
+            "RedLeft")); // AT 10
+
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(12.3022, 6.355), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(13.271, 5.34),
+                new Rotation2d(Units.degreesToRadians(-60))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(13.048, 5.19),
+                new Rotation2d(Units.degreesToRadians(-60))), // Right Position (On Reef)
+            "RedRightTop")); // AT 9
+
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(15.2169999999999997, 6.316),
+                new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(14.6299999999999997, 5.12),
+                new Rotation2d(Units.degreesToRadians(-120))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(14.360, 5.21),
+                new Rotation2d(Units.degreesToRadians(-120))), // Right Position (On Reef)
+            "RedLeftTop")); // AT 8
+
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(16.2311, 4), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(15.082, 3.75),
+                new Rotation2d(Units.degreesToRadians(180))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(15.171, 4.09),
+                new Rotation2d(Units.degreesToRadians(180))), // Right Position (On Reef)
+            "RedRight")); // AT 7
+    redReefSidess.add(
+        new ReefSide(
+            new Pose2d(
+                new Translation2d(15.110, 1.919), new Rotation2d(0)), // Reef Side Position (away)
+            new Pose2d(
+                new Translation2d(14.260, 2.76),
+                new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
+            new Pose2d(
+                new Translation2d(14.548, 2.89),
+                new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
+            "RedRightBottom")); // AT 26
   }
-  /*
-  AT 11
-  Left ->  x:12.20   y:2.90
-  Right -> x:12.55   y:2.71
-  */
+
   private void initCoralStationPoints() {
     coralStationPoints = new ArrayList<Pose2d>();
     coralStationPoints.add(
