@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BR1a"
+            "pathName": "BR1b"
           }
         },
         {
@@ -25,13 +25,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR1b"
+            "waitTime": 2.0
           }
         },
         {
@@ -41,46 +35,22 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeOn"
-                }
-              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "BR2"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR3a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
           }
         },
         {
@@ -92,13 +62,19 @@
         {
           "type": "named",
           "data": {
-            "name": "SpitCoral"
+            "name": "LiftElevator"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.4
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         },
         {
@@ -118,6 +94,30 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LiftElevator"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         }
       ]
