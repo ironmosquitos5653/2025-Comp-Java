@@ -235,10 +235,10 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(12.1755, 1.558), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(12.871, 2.92),
+                new Translation2d(12.19, 3),
                 new Rotation2d(Units.degreesToRadians(60))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(13.148, 2.76),
+                new Translation2d(12.43, 2.85),
                 new Rotation2d(Units.degreesToRadians(60))), // Right Position (On Reef)
             "RedLeftBottom")); // AT 11
     redReefSidess.add(
@@ -258,10 +258,10 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(12.3022, 6.355), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(13.271, 5.34),
+                new Translation2d(12.64, 5.30),
                 new Rotation2d(Units.degreesToRadians(-60))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(13.048, 5.19),
+                new Translation2d(12.33, 5.19),
                 new Rotation2d(Units.degreesToRadians(-60))), // Right Position (On Reef)
             "RedRightTop")); // AT 9
 
@@ -271,10 +271,10 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(15.2169999999999997, 6.316),
                 new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(14.6299999999999997, 5.12),
+                new Translation2d(13.95, 5.03),
                 new Rotation2d(Units.degreesToRadians(-120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(14.360, 5.21),
+                new Translation2d(13.69, 5.28),
                 new Rotation2d(Units.degreesToRadians(-120))), // Right Position (On Reef)
             "RedLeftTop")); // AT 8
 
@@ -294,12 +294,12 @@ public class VisionSubsystem extends SubsystemBase {
             new Pose2d(
                 new Translation2d(15.110, 1.919), new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(14.260, 2.76),
+                new Translation2d(13.45, 2.76),
                 new Rotation2d(Units.degreesToRadians(120))), // Left Position (On Reef)
             new Pose2d(
-                new Translation2d(14.548, 2.89),
+                new Translation2d(13.75, 2.88),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
-            "RedRightBottom")); // AT 26
+            "RedRightBottom")); // AT 6
   }
 
   private void initCoralStationPoints() {
@@ -324,10 +324,16 @@ public class VisionSubsystem extends SubsystemBase {
 
   public ReefSide findClosest() {
     Pose2d pose = m_driveSubsystem.getPose();
+
+    List<ReefSide> reefs = blueReefSidess;
+    if (pose.getTranslation().getX() > 9) {
+      reefs = redReefSidess;
+    }
+
     ReefSide closest = null;
     double distance = 100;
-    if (blueReefSidess != null) {
-      for (ReefSide p : blueReefSidess) {
+    if (reefs != null) {
+      for (ReefSide p : reefs) {
         double d = p.getSidePosition().getTranslation().getDistance(pose.getTranslation());
         if (d < distance) {
           distance = d;

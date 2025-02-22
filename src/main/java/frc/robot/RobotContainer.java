@@ -175,6 +175,9 @@ public class RobotContainer {
     driveController.y().onTrue(new AlgaeIntakeCommand(elevatorSubsystem)); // Reset
     driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
     driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
+    driveController
+        .povLeft()
+        .onTrue(Commands.runOnce((() -> elevatorSubsystem.setPosition(Position.ELV_off))));
 
     // Controls
     coPilotController

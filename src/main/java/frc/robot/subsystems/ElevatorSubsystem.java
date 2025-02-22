@@ -85,20 +85,25 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (targetPosition != Position.ELV_off) {
       elevatorPidController.setSetpoint(targetPosition.position);
       double speed = elevatorPidController.calculate(elevatorEncoder.getPosition());
-      if (speed > .4) {
-        speed = .4;
+      if (speed > .5) {
+        if (elevatorEncoder.getPosition() < 2) {
+          speed = .3;
+        } else {
+          speed = .5;
+        }
       } else if (speed < -.1) {
         speed = -.1;
       }
-      SmartDashboard.putNumber("elevatorSpeedXX", elevatorMotor.get());
+      SmartDashboard.putNumber("ElevatorExpected", elevatorEncoder.getPosition());
       SmartDashboard.putNumber("elevatorSpeed", speed);
 
       elevatorMotor.set(speed);
-      SmartDashboard.putNumber("elevatorSpeedX", elevatorMotor.get());
     } else {
       elevatorMotor.set(0);
     }
   }
+
+  private boolean algaeMotorRunning = false;
 
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
@@ -110,16 +115,22 @@ public class ElevatorSubsystem extends SubsystemBase {
       } else if (speed < -.3) {
         speed = -.3;
       }
+      if (algaeIntakeMotor.getEncoder().getVelocity() > 0) {
+        algaeMotorRunning = true;
+      }
       SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
       algaeRotateMotor.set(-speed);
 
-      if (algaeIntakeMotor.getEncoder().getVelocity() < 1
-          && targetPosition != Position.Algae_Spit) {
+      if (algaeMotorRunning
+          && algaeIntakeMotor.getEncoder().getVelocity() < 1
+          && targetPosition != Position.Algae_Spit
+          && algaeTimer.hasElapsed(2)) {
         setPosition(Position.ELV_4);
+        algaeMotorRunning = false;
       }
     } else {
       algaeRotateMotor.set(0);
-      // algaeIntakeMotor.set(0);
+      algaeIntakeMotor.set(0);
     }
   }
 
@@ -158,8 +169,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     timer.start();
   }
 
+  Timer algaeTimer = null;
+
   public void setPosition(Position p) {
     targetPosition = p;
+    if (p == Position.ELV_4_algae) {
+      algaeTimer = new Timer();
+      algaeTimer.start();
+    }
   }
 
   public void coralOut() {

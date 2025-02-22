@@ -24,7 +24,7 @@ public class AlgaeIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_elevatorSubsystem.setPosition(Position.ELV_4);
+    m_elevatorSubsystem.setPosition(Position.ELV_4_algae);
     m_elevatorSubsystem.setAlgaeSpeed(-1);
   }
 

@@ -42,7 +42,7 @@ public final class Constants {
     ELV_1(0, .685, 0),
     ELV_2(5.8, .66, 0),
     ELV_3(16, .66, 0),
-    ELV_4(30, .67, 0),
+    ELV_4(30, .69, 0),
     ELV_Intake(0, .8, 0),
     ELV_IntakeTravel(0, .9, 0),
     ELV_4_algae(30, .69, .4),
