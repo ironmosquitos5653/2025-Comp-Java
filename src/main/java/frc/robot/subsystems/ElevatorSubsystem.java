@@ -61,7 +61,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
     algaeEncoder = algaeRotateMotor.getAbsoluteEncoder();
-    elevatorPidController = new PIDController(.3, .001, 0);
+    elevatorPidController = new PIDController(.08, .001, 0);
     coralIntakeMotor = new SparkMax(coralIntakeMotorCANId, MotorType.kBrushless);
   }
 
@@ -85,6 +85,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (targetPosition != Position.ELV_off) {
       elevatorPidController.setSetpoint(targetPosition.position);
       double speed = elevatorPidController.calculate(elevatorEncoder.getPosition());
+
       if (speed > .5) {
         if (elevatorEncoder.getPosition() < 2) {
           speed = .3;
@@ -93,6 +94,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
       } else if (speed < -.1) {
         speed = -.1;
+      }
+
+      if (targetPosition == Position.ELV_4_algae) {
+        if (speed > .2) {
+          speed = .2;
+        } else if (speed < -.2) {
+          speed = -.2;
+        }
       }
       SmartDashboard.putNumber("ElevatorExpected", elevatorEncoder.getPosition());
       SmartDashboard.putNumber("elevatorSpeed", speed);
@@ -107,7 +116,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
-      algaeIntakeMotor.set(1);
+      algaeIntakeMotor.set(-1);
       algaePidController.setSetpoint(targetPosition.algae);
       double speed = algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
@@ -119,14 +128,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         algaeMotorRunning = true;
       }
       SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
-      algaeRotateMotor.set(-speed);
+      if (elevatorEncoder.getPosition() > 5) {
+        algaeRotateMotor.set(-speed);
+      }
 
       if (algaeMotorRunning
           && algaeIntakeMotor.getEncoder().getVelocity() < 1
           && targetPosition != Position.Algae_Spit
           && algaeTimer.hasElapsed(2)) {
-        setPosition(Position.ELV_4);
-        algaeMotorRunning = false;
+        // setPosition(Position.ELV_4);
+        // algaeMotorRunning = false;
       }
     } else {
       algaeRotateMotor.set(0);
@@ -144,7 +155,9 @@ public class ElevatorSubsystem extends SubsystemBase {
       } else if (speed < -.2) {
         speed = -.2;
       }
-
+      SmartDashboard.putString(
+          "STUFF!!!!",
+          targetPosition.angle + " -  " + coralEncoder.getPosition() + " _ speed = " + speed);
       coralRotateMotor.set(-speed);
     } else {
       coralRotateMotor.set(0);
