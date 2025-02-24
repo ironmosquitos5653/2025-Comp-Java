@@ -164,6 +164,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
   }
 
+  public void reset(){
+    targetPosition = Position.ELV_off;
+  }
+
   Timer timer = null;
 
   public void updateRumble() {
