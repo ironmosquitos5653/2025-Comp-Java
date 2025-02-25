@@ -21,9 +21,12 @@ public class CoralIntakeCommand extends Command {
 
   Timer timer = null;
 
+  public static boolean interrupt = false;
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    interrupt = false;
     m_elevatorSubsystem.setPosition(Position.ELV_Intake);
     timer = new Timer();
     timer.start();
@@ -40,16 +43,20 @@ public class CoralIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevatorSubsystem.coralTravel();
-    SmartDashboard.putBoolean("CoralOn", false);
-    m_elevatorSubsystem.setPosition(Position.ELV_IntakeTravel);
-    m_elevatorSubsystem.setRumble();
+    if (!interrupted && !interrupt) {
+      m_elevatorSubsystem.coralTravel();
+      SmartDashboard.putBoolean("CoralOn", false);
+      m_elevatorSubsystem.setPosition(Position.ELV_IntakeTravel);
+      m_elevatorSubsystem.setRumble();
+    } else {
+      m_elevatorSubsystem.reset();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     SmartDashboard.putNumber("coralVelocity", m_elevatorSubsystem.getCoralVelocity());
-    return timer.hasElapsed(1) && m_elevatorSubsystem.getCoralVelocity() < 100;
+    return interrupt || (timer.hasElapsed(1) && m_elevatorSubsystem.getCoralVelocity() < 100);
   }
 }

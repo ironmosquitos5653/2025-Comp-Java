@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Position;
+import frc.robot.commands.CoralIntakeCommand;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -76,6 +77,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TargetPosition", targetPosition.position);
     SmartDashboard.putNumber("ElevatorEncoder", elevatorEncoder.getPosition());
     SmartDashboard.putBoolean("Switch", bottomSensor.get());
+    SmartDashboard.putString("Position", targetPosition.toString());
   }
 
   private void updateElevator() {
@@ -164,8 +166,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
   }
 
-  public void reset(){
+  public void reset() {
     targetPosition = Position.ELV_off;
+    coralPidController = new PIDController(2, .01, 0);
+    coralIntakeMotor.set(0);
+    algaeIntakeMotor.set(0);
+    CoralIntakeCommand.interrupt = true;
   }
 
   Timer timer = null;

@@ -29,7 +29,6 @@ import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.LineUpCommand;
 import frc.robot.commands.LineUpCommandStation;
-import frc.robot.commands.TestPID;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
@@ -175,9 +174,7 @@ public class RobotContainer {
     driveController.y().onTrue(new AlgaeIntakeCommand(elevatorSubsystem)); // Reset
     driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
     driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
-    driveController
-        .povLeft()
-        .onTrue(Commands.runOnce((() -> elevatorSubsystem.setPosition(Position.ELV_off))));
+    driveController.povLeft().onTrue(Commands.runOnce((() -> elevatorSubsystem.reset())));
 
     // Controls
     coPilotController
@@ -212,8 +209,6 @@ public class RobotContainer {
     coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
     // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
-
-    driveController.povLeft().whileTrue(new TestPID(elevatorSubsystem, climbSubsystem));
   }
 
   /**
