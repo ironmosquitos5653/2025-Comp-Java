@@ -24,11 +24,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.Position;
 import frc.robot.commands.AlgaeIntakeCommand;
 import frc.robot.commands.AlgaeSpitCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.LineUpCommand;
 import frc.robot.commands.LineUpCommandStation;
+import frc.robot.commands.TestPID;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
@@ -80,7 +82,7 @@ public class RobotContainer {
 
         visionSubsystem = new VisionSubsystem(drive);
         trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
-        climbSubsystem = null;
+        climbSubsystem = new ClimbSubsystem();
         elevatorSubsystem = new ElevatorSubsystem(coPilotController);
 
         break;
@@ -175,6 +177,9 @@ public class RobotContainer {
     driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
     driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
     driveController.povLeft().onTrue(Commands.runOnce((() -> elevatorSubsystem.reset())));
+    driveController.povRight().whileTrue(new TestPID(elevatorSubsystem, climbSubsystem));
+    driveController.povDown().onTrue(Commands.runOnce((() -> climbSubsystem.armOut())));
+    driveController.povUp().whileTrue(new ClimbCommand(climbSubsystem));
 
     // Controls
     coPilotController

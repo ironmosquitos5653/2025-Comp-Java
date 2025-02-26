@@ -94,8 +94,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         } else {
           speed = .5;
         }
-      } else if (speed < -.1) {
-        speed = -.1;
+      } else if (speed < -.2) {
+        speed = -.2;
       }
 
       if (targetPosition == Position.ELV_4_algae) {
@@ -116,9 +116,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private boolean algaeMotorRunning = false;
 
+  private double algaeIntakeSpeed = 0;
+
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
-      algaeIntakeMotor.set(-1);
+      algaeIntakeMotor.set(algaeIntakeSpeed);
       algaePidController.setSetpoint(targetPosition.algae);
       double speed = algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
@@ -134,13 +136,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         algaeRotateMotor.set(-speed);
       }
 
-      if (algaeMotorRunning
+      /*if (algaeMotorRunning
           && algaeIntakeMotor.getEncoder().getVelocity() < 1
           && targetPosition != Position.Algae_Spit
           && algaeTimer.hasElapsed(2)) {
         // setPosition(Position.ELV_4);
         // algaeMotorRunning = false;
-      }
+      }*/
     } else {
       algaeRotateMotor.set(0);
       algaeIntakeMotor.set(0);
@@ -196,9 +198,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void setPosition(Position p) {
     targetPosition = p;
-    if (p == Position.ELV_4_algae) {
+    if (p == Position.ELV_4_algaeLow || p == Position.ELV_4_algae) {
       algaeTimer = new Timer();
       algaeTimer.start();
+      algaeIntakeSpeed = -1;
     }
   }
 
@@ -251,6 +254,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setAlgaeSpeed(double speed) {
-    algaeIntakeMotor.set(speed);
+    algaeIntakeSpeed = speed;
   }
 }

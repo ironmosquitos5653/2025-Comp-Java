@@ -4,50 +4,36 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Position;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlgaeSpitCommand extends Command {
-  ElevatorSubsystem m_elevatorSubsystem;
+public class ClimbCommand extends Command {
+  ClimbSubsystem m_ClimbSubsystem;
 
-  public AlgaeSpitCommand(ElevatorSubsystem elevatorSubsystem) {
-    m_elevatorSubsystem = elevatorSubsystem;
+  public ClimbCommand(ClimbSubsystem climbSubsystem) {
+    m_ClimbSubsystem = climbSubsystem;
   }
-
-  Timer timer;
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_elevatorSubsystem.setPosition(Position.Algae_Spit);
-    timer = null;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_elevatorSubsystem.getElevatorPosition() > Position.Algae_Spit.position - 1) {
-      m_elevatorSubsystem.setAlgaeSpeed(1);
-      if (timer == null) {
-        timer = new Timer();
-        timer.start();
-      }
-    }
+    m_ClimbSubsystem.setSpeed(.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevatorSubsystem.setPosition(Position.ELV_off);
-    m_elevatorSubsystem.setAlgaeSpeed(0);
+    m_ClimbSubsystem.setSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer != null && timer.hasElapsed(1);
+    return false;
   }
 }

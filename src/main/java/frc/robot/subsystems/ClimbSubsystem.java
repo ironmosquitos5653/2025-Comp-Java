@@ -5,52 +5,63 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private static final int climbMotorCANId = 0;
+  private static final int climbMotorCANId = 31;
+  private static final int rotateMotorCANId = 30;
   private SparkMax climb;
+  private SparkMax rotate;
 
   private PIDController pidController;
 
-  private AbsoluteEncoder encoder = null;
+  private AbsoluteEncoder rotateencoder = null;
+  private RelativeEncoder climbeencoder;
   private double targetAngle = 0;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
-    // climb = new SparkMax(climbMotorCANId, MotorType.kBrushless);
-    // encoder = climb.getAbsoluteEncoder();
-    pidController = new PIDController(.015, .0003, 0);
+    climb = new SparkMax(climbMotorCANId, MotorType.kBrushless);
+    rotate = new SparkMax(rotateMotorCANId, MotorType.kBrushless);
+    rotateencoder = rotate.getAbsoluteEncoder();
+    climbeencoder = climb.getEncoder();
+    pidController = new PIDController(1, .0003, 0);
   }
-
-  public ClimbSubsystem(String getSubsystem) {
-    // TODO Auto-generated constructor stub
-  }
-
-  public void toggle() {}
 
   @Override
   public void periodic() {
+
     if (targetAngle != 0) {
       pidController.setSetpoint(targetAngle);
-      double speed = pidController.calculate(encoder.getPosition());
+      double speed = pidController.calculate(rotateencoder.getPosition());
       if (speed > .2) {
         speed = .2;
       } else if (speed < -.3) {
         speed = -.3;
       }
-      SmartDashboard.putNumber("climbIntakeSpeed", climb.getEncoder().getVelocity());
-      climb.set(-speed);
+      SmartDashboard.putNumber("climbRotateSpeed", speed);
+      rotate.set(speed);
     } else {
       climb.set(0);
       climb.set(0);
     }
+    SmartDashboard.putNumber("ClimbMotor", climbeencoder.getPosition());
   }
 
   public void setSpeed(double speed) {
     climb.set(speed);
+  }
+
+  public void armOut() {
+    targetAngle = .84;
+  }
+
+  public void armIn() {
+    climb.set(.2);
   }
 }
