@@ -22,7 +22,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private AbsoluteEncoder rotateencoder = null;
   private RelativeEncoder climbeencoder;
-  private double targetAngle = 0;
+  private double targetAngle = .282;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
@@ -31,6 +31,7 @@ public class ClimbSubsystem extends SubsystemBase {
     rotateencoder = rotate.getAbsoluteEncoder();
     climbeencoder = climb.getEncoder();
     pidController = new PIDController(1, .0003, 0);
+    climbeencoder.setPosition(0);
   }
 
   @Override
@@ -58,10 +59,18 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .84;
+    targetAngle = .055;
   }
 
   public void armIn() {
-    climb.set(.2);
+    climb.set(1);
+  }
+
+  public double getPosition() {
+    return climbeencoder.getPosition();
+  }
+
+  public void reset() {
+    climbeencoder.setPosition(0);
   }
 }

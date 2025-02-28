@@ -13,62 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BR1a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR1b"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpitCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeOn"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BR2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR3a"
+            "pathName": "MBA1a"
           }
         },
         {
@@ -86,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BR3b"
+            "pathName": "MBA1b"
           }
         },
         {
@@ -96,9 +41,27 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.4
+            "name": "Reset"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeIntakeOn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MBA2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeSpit"
           }
         },
         {
@@ -108,7 +71,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BR4"
+                  "pathName": "MBA3"
                 }
               },
               {

@@ -8,6 +8,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.Position;
+import frc.robot.commands.AlgaeIntakeCommand;
+import frc.robot.commands.AlgaeSpitCommand;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.SetCoralCommand;
@@ -39,6 +41,11 @@ public class AutonomousManager {
     // wait 1s
     register("SpitCoral", new CoralSpitCommand(m_elevatorSubsystem));
     register("IntakeOn", new CoralIntakeCommand(m_elevatorSubsystem));
+    register("AlgaeIntakeOn", new AlgaeIntakeCommand(m_elevatorSubsystem));
+    register("AlgaeSpit", new AlgaeSpitCommand(m_elevatorSubsystem));
+    register("Reset", Commands.runOnce(() -> m_elevatorSubsystem.reset()));
+    register(
+        "LiftElevator3", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_3)));
   }
 
   private void register(String name, Command command) {
