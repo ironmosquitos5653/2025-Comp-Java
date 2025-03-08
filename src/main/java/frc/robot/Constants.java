@@ -41,7 +41,7 @@ public final class Constants {
     ELV_off(0, 0, 0),
     ELV_1(0, .735, 0),
     ELV_2(5.8, .7, 0),
-    ELV_3(16, .7, 0),
+    ELV_3(15.4, .7, 0),
     ELV_4(30, .71, 0),
     ELV_Intake(0, .82, 0),
     ELV_IntakeTravel(0, .9, 0),

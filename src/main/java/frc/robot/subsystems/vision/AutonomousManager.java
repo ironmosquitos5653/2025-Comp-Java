@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.Position;
 import frc.robot.commands.AlgaeIntakeCommand;
 import frc.robot.commands.AlgaeSpitCommand;
+import frc.robot.commands.AutoElevatorUp;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.SetCoralCommand;
@@ -46,6 +47,9 @@ public class AutonomousManager {
     register("Reset", Commands.runOnce(() -> m_elevatorSubsystem.reset()));
     register(
         "LiftElevator3", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_3)));
+    register("AutoElevatorUp", new AutoElevatorUp(m_elevatorSubsystem, .3));
+    register("AutoElevatorUp2", new AutoElevatorUp(m_elevatorSubsystem, 1.1));
+    register("AutoElevatorUp3", new AutoElevatorUp(m_elevatorSubsystem, 1.1));
   }
 
   private void register(String name, Command command) {

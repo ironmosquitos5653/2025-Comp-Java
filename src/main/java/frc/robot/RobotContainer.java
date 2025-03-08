@@ -84,7 +84,7 @@ public class RobotContainer {
         visionSubsystem = new VisionSubsystem(drive);
         trajectoryCommandFactory = new TrajectoryCommandFactory(drive, visionSubsystem);
         climbSubsystem = new ClimbSubsystem();
-        elevatorSubsystem = new ElevatorSubsystem(coPilotController);
+        elevatorSubsystem = new ElevatorSubsystem(driveController);
 
         break;
 

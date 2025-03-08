@@ -31,6 +31,7 @@ public class ClimbSubsystem extends SubsystemBase {
     rotateencoder = rotate.getAbsoluteEncoder();
     climbeencoder = climb.getEncoder();
     pidController = new PIDController(1, .0003, 0);
+    pidController.enableContinuousInput(0, 1);
     climbeencoder.setPosition(0);
   }
 

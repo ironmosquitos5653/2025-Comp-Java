@@ -68,8 +68,11 @@ public class VisionSubsystem extends SubsystemBase {
           if (mt1.rawFiducials[0].ambiguity > .7) {
             doRejectUpdate = true;
           }
-          if (mt1.rawFiducials[0].distToCamera > 2) {
+          if (mt1.rawFiducials[0].distToCamera > 3) {
             doRejectUpdate = true;
+          }
+          if (mt1.rawFiducials[0].id == 12) {
+            // doRejectUpdate = true;
           }
         }
         if (mt1.tagCount == 0) {

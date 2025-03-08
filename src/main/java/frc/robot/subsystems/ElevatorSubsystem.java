@@ -48,7 +48,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private DigitalInput bottomSensor = new DigitalInput(0);
   CommandXboxController m_CommandXboxController;
 
-  public ElevatorSubsystem(CommandXboxController m_commandXboxController) {
+  public ElevatorSubsystem(CommandXboxController commandXboxController) {
     elevatorMotor = new SparkMax(elevatorMotorCANId, MotorType.kBrushless);
     elevatorMotorFollower = new SparkMax(elevatorMotorFollowerCANId, MotorType.kBrushless);
     elevatorMotorFollower.isFollower();
@@ -58,12 +58,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     coralRotateMotor = new SparkMax(coralRotateMotorCANId, MotorType.kBrushless);
     coralEncoder = coralRotateMotor.getAbsoluteEncoder();
     coralPidController = new PIDController(2, .01, 0);
+    coralPidController.enableContinuousInput(0, 1);
     algaePidController = new PIDController(1.5, .0003, 0);
+    algaePidController.enableContinuousInput(0, 1);
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
     algaeEncoder = algaeRotateMotor.getAbsoluteEncoder();
     elevatorPidController = new PIDController(.1, .001, 0);
     coralIntakeMotor = new SparkMax(coralIntakeMotorCANId, MotorType.kBrushless);
+    m_CommandXboxController = commandXboxController;
   }
 
   @Override
@@ -71,6 +74,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     updateElevator();
     updateAlgae();
     updateCoral();
+    updateRumble();
     SmartDashboard.putNumber("coralPosition", coralEncoder.getPosition());
     SmartDashboard.putNumber("algaePosition", algaeEncoder.getPosition());
     SmartDashboard.putNumber("TargetAngle", targetPosition.angle);
@@ -99,10 +103,10 @@ public class ElevatorSubsystem extends SubsystemBase {
       }
 
       if (targetPosition == Position.ELV_4_algae) {
-        if (speed > .2) {
-          speed = .2;
-        } else if (speed < -.2) {
-          speed = -.2;
+        if (speed > .7) {
+          speed = .7;
+        } else if (speed < -.7) {
+          speed = -.7;
         }
       }
       SmartDashboard.putNumber("ElevatorExpected", elevatorEncoder.getPosition());
@@ -176,22 +180,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     CoralIntakeCommand.interrupt = true;
   }
 
-  Timer timer = null;
+  Timer rumbleTimer = null;
 
   public void updateRumble() {
-    if (timer != null) {
-      if (timer.hasElapsed(.5)) {
+    if (rumbleTimer != null) {
+      if (!rumbleTimer.hasElapsed(.5)) {
         m_CommandXboxController.getHID().setRumble(RumbleType.kBothRumble, 1);
       } else {
-        timer = null;
+        rumbleTimer = null;
         m_CommandXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
       }
     }
   }
 
   public void setRumble() {
-    timer = new Timer();
-    timer.start();
+    rumbleTimer = new Timer();
+    rumbleTimer.start();
   }
 
   Timer algaeTimer = null;
