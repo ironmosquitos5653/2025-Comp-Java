@@ -4,6 +4,10 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
@@ -14,16 +18,32 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 public class AutoElevatorUp extends Command {
   ElevatorSubsystem m_ElevatorSubsystem;
   double waitTime;
-  ReefSide m_ReefSide;
+  Pose2d m_targetPose;
 
   public AutoElevatorUp(ElevatorSubsystem elevatorSubsystem, String reefSide, boolean left) {
     m_ElevatorSubsystem = elevatorSubsystem;
     addRequirements(m_ElevatorSubsystem);
-    this.waitTime = waitTime;
-    m_ReefSide = null;
+    this.waitTime = 1.1;
+
     if (reefSide.startsWith("Blue")) {
-      for (ReefSide rs : VisionSubsystem.blueReefSidess)
+      m_targetPose = getTargetPose(VisionSubsystem.blueReefSidess, reefSide, left);
+    } else {
+      m_targetPose = getTargetPose(VisionSubsystem.redReefSidess, reefSide, left);
     }
+  }
+
+  private Pose2d getTargetPose(List<ReefSide> reefs, String reefSide, boolean left) {
+    if (reefSide.startsWith("Blue")) {
+      for (ReefSide rs : VisionSubsystem.blueReefSidess) {
+        if (rs.getDescription() == reefSide) {
+          if (left)
+            return rs.getLeftPosition();
+          else
+            return rs.getLeftPosition();
+        }
+      }
+    }
+    return null;
   }
 
   Timer timer;

@@ -47,9 +47,9 @@ public class AutonomousManager {
     register("Reset", Commands.runOnce(() -> m_elevatorSubsystem.reset()));
     register(
         "LiftElevator3", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_3)));
-    register("AutoElevatorUp", new AutoElevatorUp(m_elevatorSubsystem, "RedLeftTop", true));
-    register("AutoElevatorUp2", new AutoElevatorUp(m_elevatorSubsystem, 1.3));
-    register("AutoElevatorUp3", new AutoElevatorUp(m_elevatorSubsystem, 1.1));
+    register("AutoElevatorUpRLTL", new AutoElevatorUp(m_elevatorSubsystem, "RedLeftTop", true));
+    register("AutoElevatorUpRRLL", new AutoElevatorUp(m_elevatorSubsystem, "RedLeftTop", true));
+    register("AutoElevatorUpRRLR", new AutoElevatorUp(m_elevatorSubsystem, "RedLeftTop", false));
   }
 
   private void register(String name, Command command) {

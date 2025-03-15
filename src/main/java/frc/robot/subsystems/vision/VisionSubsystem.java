@@ -229,7 +229,7 @@ public class VisionSubsystem extends SubsystemBase {
    5.91 -- 14.44
   */
 
-  private stArrayList<ReefSide> initRedReefPoints() {
+  private static ArrayList<ReefSide> initRedReefPoints() {
     ArrayList<ReefSide> redReefSidess = new ArrayList<ReefSide>();
 
     redReefSidess.add(
