@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.Position;
 import frc.robot.commands.AlgaeIntakeCommand;
+import frc.robot.commands.AlgaeLowCommand;
 import frc.robot.commands.AlgaeSpitCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbOutCommand;
@@ -174,8 +175,6 @@ public class RobotContainer {
     // climbSubsystem.setDefaultCommand(new RunCommand(() -> {}, climbSubsystem));
     elevatorSubsystem.setDefaultCommand(new RunCommand(() -> {}, elevatorSubsystem));
 
-    driveController.y().onTrue(new AlgaeIntakeCommand(elevatorSubsystem)); // Reset
-    driveController.b().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit
     driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
     driveController.povLeft().onTrue(Commands.runOnce((() -> elevatorSubsystem.reset())));
     driveController.povRight().whileTrue(new TestPID(elevatorSubsystem, climbSubsystem));
@@ -197,10 +196,10 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4)));
     coPilotController
         .povUp()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4_algae)));
+        .onTrue(new AlgaeIntakeCommand(elevatorSubsystem, Position.ELV_4_algae));
     coPilotController
         .povDown()
-        .onTrue(Commands.runOnce(() -> elevatorSubsystem.setPosition(Position.ELV_4_algaeLow)));
+        .onTrue(new AlgaeIntakeCommand(elevatorSubsystem, Position.ELV_algaeLow));
 
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
 
@@ -211,11 +210,11 @@ public class RobotContainer {
     driveController
         .rightBumper()
         .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, false));
+    coPilotController.povRight().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit high
+    coPilotController.povLeft().onTrue(new AlgaeLowCommand(elevatorSubsystem)); // Spit Low
 
     coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
-    // coPilotController.povRight().onTrue(new AlgaeLowCommand(elevatorSubsystem));
-    // coPilotController.povDown().onTrue(Commands.runOnce(() -> climbSubsystem.toggle()));
   }
 
   /**

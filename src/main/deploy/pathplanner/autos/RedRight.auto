@@ -11,27 +11,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RR1a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.75
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RR1b"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUp"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RR1"
+                }
+              }
+            ]
           }
         },
         {
@@ -41,9 +36,22 @@
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 0.4
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RR2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              }
+            ]
           }
         },
         {
@@ -51,42 +59,18 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "IntakeOn"
+                  "pathName": "RR3"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "RR2"
+                  "name": "AutoElevatorUp2"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RR3a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RR3b"
           }
         },
         {
@@ -112,6 +96,31 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RR5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUp3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         }
       ]

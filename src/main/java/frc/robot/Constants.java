@@ -45,20 +45,22 @@ public final class Constants {
     ELV_4(30, .71, 0),
     ELV_Intake(0, .82, 0),
     ELV_IntakeTravel(0, .9, 0),
-    ELV_4_algae(23, 0, .4),
-    ELV_4_algaeLow(10, 0, .4),
+    ELV_4_algae(18, 0, .32),
+    ELV_algaeLow(10.4, 0, .32),
     ELV_4_auto(30, .54, 0),
 
     // Algae Spit
     Algae_Spit(30, 0, .08),
 
+    Algae_tmp(0, 0, 0),
+
     // Climb Positions,
     Climb_Out(0, 0, 0),
     Climb_In(0, 0, 0);
 
-    public final double position;
-    public final double angle;
-    public final double algae;
+    public double position;
+    public double angle;
+    public double algae;
 
     Position(double p, double a, double algae) {
       position = p;

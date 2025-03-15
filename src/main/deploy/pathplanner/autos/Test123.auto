@@ -11,45 +11,21 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "BRP1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BRP2"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "name": "AutoElevatorUp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BR1b"
+            "pathName": "RR1"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "SpitCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
           }
         },
         {
@@ -65,46 +41,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BR2"
+                  "pathName": "RR2"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR3a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR3b"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpitCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
           }
         },
         {
@@ -114,16 +54,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BR4"
+                  "pathName": "RR3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "AutoElevatorUp2"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         }
       ]

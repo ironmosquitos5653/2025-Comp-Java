@@ -11,39 +11,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RL1a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RL1b"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUp"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RL1"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "SpitCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.4
           }
         },
         {
@@ -66,27 +55,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RL3a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RL3b"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RL3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUp2"
+                }
+              }
+            ]
           }
         },
         {
@@ -112,6 +96,31 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RL5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUp3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         }
       ]

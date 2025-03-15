@@ -40,7 +40,6 @@ public class VisionSubsystem extends SubsystemBase {
 
   public VisionSubsystem(Drive driveSubsystem) {
 
-    initReefss();
     m_driveSubsystem = driveSubsystem;
     ShuffleboardTab tab = Shuffleboard.getTab("Vision");
     tab.addString("Pose", this::getFomattedPose).withPosition(0, 0).withSize(4, 0);
@@ -81,6 +80,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         if (!doRejectUpdate) {
           SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
+          SmartDashboard.putNumber("AprilTag", mt1.rawFiducials[0].id);
           m_driveSubsystem.addVisionMeasurement(
               cameraTransform(mt1.pose, cameraTransform3d),
               mt1.timestampSeconds,
@@ -141,18 +141,16 @@ public class VisionSubsystem extends SubsystemBase {
         "(%.2f, %.2f) %.2f degrees", pose.getX(), pose.getY(), pose.getRotation().getDegrees());
   }
 
-  private List<ReefSide> blueReefSidess;
-  private List<ReefSide> redReefSidess;
+  public static List<ReefSide> blueReefSidess = initBlueReefPoints();
+  public static List<ReefSide> redReefSidess = initRedReefPoints();
   private List<Pose2d> coralStationPoints;
 
   private void initReefss() {
-    initBlueReefPoints();
-    initRedReefPoints();
     initCoralStationPoints();
   }
 
-  private void initBlueReefPoints() {
-    blueReefSidess = new ArrayList<ReefSide>();
+  private static ArrayList<ReefSide> initBlueReefPoints() {
+    ArrayList<ReefSide> blueReefSidess = new ArrayList<ReefSide>();
 
     blueReefSidess.add(
         new ReefSide(
@@ -222,6 +220,7 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(5.28, 2.89),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "BlueRightBottom")); // AT 22
+      return blueReefSidess;
   }
   /*RedReef AT 7 left  x: 11.34  y: 3.67
    right  x:14.44 y:4.07
@@ -230,8 +229,8 @@ public class VisionSubsystem extends SubsystemBase {
    5.91 -- 14.44
   */
 
-  private void initRedReefPoints() {
-    redReefSidess = new ArrayList<ReefSide>();
+  private stArrayList<ReefSide> initRedReefPoints() {
+    ArrayList<ReefSide> redReefSidess = new ArrayList<ReefSide>();
 
     redReefSidess.add(
         new ReefSide(
@@ -303,6 +302,7 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(13.75, 2.88),
                 new Rotation2d(Units.degreesToRadians(120))), // Right Position (On Reef)
             "RedRightBottom")); // AT 6
+    return redReefSidess;
   }
 
   private void initCoralStationPoints() {

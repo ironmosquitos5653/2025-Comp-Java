@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -12,29 +14,64 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class AlgaeIntakeCommand extends Command {
 
   ElevatorSubsystem m_elevatorSubsystem;
+  Position m_Position;
+  Position m_starPosition;
+  public static boolean interrupt = false;
 
-  public AlgaeIntakeCommand(ElevatorSubsystem elevatorSubsystem) {
+  Timer timer;
+
+  public AlgaeIntakeCommand(ElevatorSubsystem elevatorSubsystem, Position position) {
     m_elevatorSubsystem = elevatorSubsystem;
+    m_Position = position;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Position.Algae_tmp.position = m_Position.position;
+    m_starPosition = Position.Algae_tmp;
+
+    m_elevatorSubsystem.setPosition(m_starPosition);
+
+    timer = new Timer();
+    timer.start();
+    interrupt = false;
+    m_elevatorSubsystem.setCurrentLimit(12);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_elevatorSubsystem.setPosition(Position.ELV_4_algae);
     m_elevatorSubsystem.setAlgaeSpeed(-1);
+    double diff = m_elevatorSubsystem.getElevatorPosition() - m_starPosition.position;
+    if (diff < 2 && diff > -2) {
+      m_elevatorSubsystem.setPosition(m_Position);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_elevatorSubsystem.setPosition(m_starPosition);
+    if (interrupt) {
+      m_elevatorSubsystem.reset();
+    }
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_elevatorSubsystem.getAlgaeVelocity() == 0;
+    SmartDashboard.putNumber("AlgaeSpeed", m_elevatorSubsystem.getAlgaeVelocity());
+    SmartDashboard.putString(
+        "algaeFinished",
+        interrupt
+            + " - "
+            + (m_elevatorSubsystem.getAlgaeVelocity() < .5)
+            + " - "
+            + m_elevatorSubsystem.getAlgaeVelocity()
+            + " - "
+            + timer.hasElapsed(1)
+            + (interrupt || (m_elevatorSubsystem.getAlgaeVelocity() < .5 && timer.hasElapsed(1))));
+    return interrupt || (m_elevatorSubsystem.getAlgaeVelocity() > -.5 && timer.hasElapsed(1));
   }
 }

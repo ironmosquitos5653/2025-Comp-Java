@@ -22,8 +22,7 @@ public class ClimbCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ClimbSubsystem.reset();
-    m_ClimbSubsystem.setSpeed(.2);
+    m_ClimbSubsystem.setSpeed(-.8);
   }
 
   // Called once the command ends or is interrupted.

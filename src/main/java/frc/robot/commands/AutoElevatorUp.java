@@ -8,16 +8,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.vision.ReefSide;
+import frc.robot.subsystems.vision.VisionSubsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoElevatorUp extends Command {
   ElevatorSubsystem m_ElevatorSubsystem;
   double waitTime;
+  ReefSide m_ReefSide;
 
-  public AutoElevatorUp(ElevatorSubsystem elevatorSubsystem, double waitTime) {
+  public AutoElevatorUp(ElevatorSubsystem elevatorSubsystem, String reefSide, boolean left) {
     m_ElevatorSubsystem = elevatorSubsystem;
     addRequirements(m_ElevatorSubsystem);
     this.waitTime = waitTime;
+    m_ReefSide = null;
+    if (reefSide.startsWith("Blue")) {
+      for (ReefSide rs : VisionSubsystem.blueReefSidess)
+    }
   }
 
   Timer timer;

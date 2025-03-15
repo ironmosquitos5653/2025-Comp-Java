@@ -42,13 +42,13 @@ public class AutonomousManager {
     // wait 1s
     register("SpitCoral", new CoralSpitCommand(m_elevatorSubsystem));
     register("IntakeOn", new CoralIntakeCommand(m_elevatorSubsystem));
-    register("AlgaeIntakeOn", new AlgaeIntakeCommand(m_elevatorSubsystem));
+    register("AlgaeIntakeOn", new AlgaeIntakeCommand(m_elevatorSubsystem, Position.ELV_4_algae));
     register("AlgaeSpit", new AlgaeSpitCommand(m_elevatorSubsystem));
     register("Reset", Commands.runOnce(() -> m_elevatorSubsystem.reset()));
     register(
         "LiftElevator3", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_3)));
-    register("AutoElevatorUp", new AutoElevatorUp(m_elevatorSubsystem, .3));
-    register("AutoElevatorUp2", new AutoElevatorUp(m_elevatorSubsystem, 1.1));
+    register("AutoElevatorUp", new AutoElevatorUp(m_elevatorSubsystem, "RedLeftTop", true));
+    register("AutoElevatorUp2", new AutoElevatorUp(m_elevatorSubsystem, 1.3));
     register("AutoElevatorUp3", new AutoElevatorUp(m_elevatorSubsystem, 1.1));
   }
 

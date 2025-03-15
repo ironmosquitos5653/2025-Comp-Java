@@ -27,7 +27,7 @@ public class TestPID extends Command {
   public void execute() {
     m_elevatorSubsystem.setRumble();
     // m_elevatorSubsystem.setSpeed(.2);
-    // m_climbsubsystem.setSpeed(-.2);
+    m_climbsubsystem.setSpeed(.5);
   }
 
   // Called once the command ends or is interrupted.

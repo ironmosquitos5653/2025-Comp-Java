@@ -6,8 +6,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -16,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Position;
+import frc.robot.commands.AlgaeIntakeCommand;
 import frc.robot.commands.CoralIntakeCommand;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -57,14 +61,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     coralRotateMotor = new SparkMax(coralRotateMotorCANId, MotorType.kBrushless);
     coralEncoder = coralRotateMotor.getAbsoluteEncoder();
-    coralPidController = new PIDController(2, .01, 0);
+    coralPidController = new PIDController(2, 0, 0);
     coralPidController.enableContinuousInput(0, 1);
-    algaePidController = new PIDController(1.5, .0003, 0);
+    algaePidController = new PIDController(1.6, .0003, 0);
     algaePidController.enableContinuousInput(0, 1);
     algaeRotateMotor = new SparkMax(algaeRotateMotorCANId, MotorType.kBrushless);
     algaeIntakeMotor = new SparkMax(algaeIntakeMotorCANId, MotorType.kBrushless);
     algaeEncoder = algaeRotateMotor.getAbsoluteEncoder();
-    elevatorPidController = new PIDController(.1, .001, 0);
+    elevatorPidController = new PIDController(.14, .00, 0);
     coralIntakeMotor = new SparkMax(coralIntakeMotorCANId, MotorType.kBrushless);
     m_CommandXboxController = commandXboxController;
   }
@@ -124,7 +128,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void updateAlgae() {
     if (targetPosition.algae != 0) {
-      algaeIntakeMotor.set(algaeIntakeSpeed);
+
       algaePidController.setSetpoint(targetPosition.algae);
       double speed = algaePidController.calculate(algaeEncoder.getPosition());
       if (speed > .2) {
@@ -132,32 +136,19 @@ public class ElevatorSubsystem extends SubsystemBase {
       } else if (speed < -.3) {
         speed = -.3;
       }
-      if (algaeIntakeMotor.getEncoder().getVelocity() > 0) {
-        algaeMotorRunning = true;
-      }
-      SmartDashboard.putNumber("algaeIntakeSpeed", algaeIntakeMotor.getEncoder().getVelocity());
-      if (elevatorEncoder.getPosition() > 5) {
-        algaeRotateMotor.set(-speed);
-      }
 
-      /*if (algaeMotorRunning
-          && algaeIntakeMotor.getEncoder().getVelocity() < 1
-          && targetPosition != Position.Algae_Spit
-          && algaeTimer.hasElapsed(2)) {
-        // setPosition(Position.ELV_4);
-        // algaeMotorRunning = false;
-      }*/
+      algaeRotateMotor.set(-speed);
     } else {
       algaeRotateMotor.set(0);
-      algaeIntakeMotor.set(0);
     }
   }
 
   private void updateCoral() {
+    coralPidController.setSetpoint(.7);
+  
     if (targetPosition.angle != 0) {
       coralPidController.setSetpoint(targetPosition.angle);
       double speed = coralPidController.calculate(coralEncoder.getPosition());
-      SmartDashboard.putNumber("coralSpeed", speed);
       if (speed > .5) {
         speed = .5;
       } else if (speed < -.2) {
@@ -178,6 +169,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     coralIntakeMotor.set(0);
     algaeIntakeMotor.set(0);
     CoralIntakeCommand.interrupt = true;
+    AlgaeIntakeCommand.interrupt = true;
   }
 
   Timer rumbleTimer = null;
@@ -198,15 +190,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     rumbleTimer.start();
   }
 
-  Timer algaeTimer = null;
-
   public void setPosition(Position p) {
+    coralPidController = new PIDController(2, .01, 0);
     targetPosition = p;
-    if (p == Position.ELV_4_algaeLow || p == Position.ELV_4_algae) {
-      algaeTimer = new Timer();
-      algaeTimer.start();
-      algaeIntakeSpeed = -1;
-    }
   }
 
   public void coralOut() {
@@ -226,11 +212,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void algaeOut() {
-    algaeIntakeMotor.set(.3);
+    algaeIntakeMotor.set(1);
   }
 
   public void algaeIn() {
-    algaeIntakeMotor.set(-.3);
+    algaeIntakeMotor.set(-1);
   }
 
   public void algaeOff() {
@@ -258,6 +244,13 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setAlgaeSpeed(double speed) {
-    algaeIntakeSpeed = speed;
+    algaeIntakeMotor.set(speed);
+  }
+
+  public void setCurrentLimit(int current) {
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.smartCurrentLimit(current);
+    algaeIntakeMotor.configure(
+        config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 }

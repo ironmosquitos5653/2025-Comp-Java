@@ -24,6 +24,7 @@ public class AlgaeSpitCommand extends Command {
   public void initialize() {
     m_elevatorSubsystem.setPosition(Position.Algae_Spit);
     timer = null;
+    m_elevatorSubsystem.setCurrentLimit(80);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

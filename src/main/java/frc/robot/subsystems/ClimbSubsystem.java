@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private static final int climbMotorCANId = 31;
+  private static final int climbMotorCANId = 32;
   private static final int rotateMotorCANId = 30;
   private SparkMax climb;
   private SparkMax rotate;
@@ -60,7 +60,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .055;
+    targetAngle = .175;
   }
 
   public void armIn() {
