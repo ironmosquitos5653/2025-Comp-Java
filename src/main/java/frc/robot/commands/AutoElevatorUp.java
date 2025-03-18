@@ -4,24 +4,26 @@
 
 package frc.robot.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.ReefSide;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import java.util.List;
 
 public class AutoElevatorUp extends Command {
   ElevatorSubsystem m_ElevatorSubsystem;
+  Drive m_Drive;
   double waitTime;
   Pose2d m_targetPose;
 
-  public AutoElevatorUp(ElevatorSubsystem elevatorSubsystem, String reefSide, boolean left) {
+  public AutoElevatorUp(
+      ElevatorSubsystem elevatorSubsystem, Drive drive, String reefSide, boolean left) {
     m_ElevatorSubsystem = elevatorSubsystem;
+    m_Drive = drive;
     addRequirements(m_ElevatorSubsystem);
     this.waitTime = 1.1;
 
@@ -36,10 +38,8 @@ public class AutoElevatorUp extends Command {
     if (reefSide.startsWith("Blue")) {
       for (ReefSide rs : VisionSubsystem.blueReefSidess) {
         if (rs.getDescription() == reefSide) {
-          if (left)
-            return rs.getLeftPosition();
-          else
-            return rs.getLeftPosition();
+          if (left) return rs.getLeftPosition();
+          else return rs.getLeftPosition();
         }
       }
     }
@@ -60,6 +60,9 @@ public class AutoElevatorUp extends Command {
   public void execute() {
     if (timer.hasElapsed(waitTime)) {
       m_ElevatorSubsystem.setPosition(Position.ELV_4);
+    }
+    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 2) {
+      // m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
   }
 

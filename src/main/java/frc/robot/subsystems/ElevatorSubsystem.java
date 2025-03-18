@@ -145,7 +145,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void updateCoral() {
     coralPidController.setSetpoint(.7);
-  
+
     if (targetPosition.angle != 0) {
       coralPidController.setSetpoint(targetPosition.angle);
       double speed = coralPidController.calculate(coralEncoder.getPosition());
