@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -35,11 +36,12 @@ public class AutoElevatorUp extends Command {
   }
 
   private Pose2d getTargetPose(List<ReefSide> reefs, String reefSide, boolean left) {
-    if (reefSide.startsWith("Blue")) {
-      for (ReefSide rs : VisionSubsystem.blueReefSidess) {
-        if (rs.getDescription() == reefSide) {
-          if (left) return rs.getLeftPosition();
-          else return rs.getLeftPosition();
+    for (ReefSide rs : reefs) {
+      if (rs.getDescription() == reefSide) {
+        if (left) {
+          return rs.getLeftPosition();
+        } else {
+          return rs.getLeftPosition();
         }
       }
     }
@@ -59,10 +61,17 @@ public class AutoElevatorUp extends Command {
   @Override
   public void execute() {
     if (timer.hasElapsed(waitTime)) {
-      m_ElevatorSubsystem.setPosition(Position.ELV_4);
-    }
-    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 2) {
       // m_ElevatorSubsystem.setPosition(Position.ELV_4);
+    }
+    SmartDashboard.putNumber(
+        "GetDistance",
+        m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()));
+    SmartDashboard.putString("Target Pose", m_targetPose.getX() + " - " + m_targetPose.getY());
+    Pose2d current = m_Drive.getPose();
+    SmartDashboard.putString("Current Pose", current.getX() + " - " + current.getY());
+
+    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 2) {
+      m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
   }
 
@@ -73,6 +82,6 @@ public class AutoElevatorUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(waitTime + .2);
+    return Position.ELV_4.position < m_ElevatorSubsystem.getElevatorPosition() - 1;
   }
 }

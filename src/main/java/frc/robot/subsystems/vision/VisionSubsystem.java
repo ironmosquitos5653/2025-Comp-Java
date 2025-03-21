@@ -27,8 +27,8 @@ public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
   private final Field2d field2d = new Field2d();
 
-  private final String reefCamera = "Limelight-reef";
-  private final String coralStationCamera = "Limelight-coral";
+  private final String reefCamera = "limelight-reef";
+  private final String coralStationCamera = "limelight-coral";
 
   private final ArrayList<Integer> coralStationTags;
 
@@ -79,8 +79,9 @@ public class VisionSubsystem extends SubsystemBase {
           && mt1CS.rawFiducials[0].distToCamera < 2
           && mt1CS.rawFiducials[0].ambiguity < .7) {
         SmartDashboard.putNumber("CoralAmbiguity", mt1CS.rawFiducials[0].ambiguity);
+        SmartDashboard.putNumber("AprilTag", mt1CS.rawFiducials[0].id);
         m_driveSubsystem.addVisionMeasurement(
-            cameraTransform(mt1.pose, coralCameraTransform),
+            cameraTransform(mt1CS.pose, coralCameraTransform),
             mt1CS.timestampSeconds,
             VecBuilder.fill(.1, .1, .1)); // 9999999));
       }
@@ -299,7 +300,7 @@ public class VisionSubsystem extends SubsystemBase {
                 new Translation2d(15.2169999999999997, 6.316),
                 new Rotation2d(0)), // Reef Side Position (away)
             new Pose2d(
-                new Translation2d(13.95, 5.03),
+                new Translation2d(12.66, 5.28),
                 new Rotation2d(Units.degreesToRadians(-120))), // Left Position (On Reef)
             new Pose2d(
                 new Translation2d(13.69, 5.28),

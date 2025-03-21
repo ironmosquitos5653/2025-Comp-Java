@@ -22,7 +22,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private AbsoluteEncoder rotateencoder = null;
   private RelativeEncoder climbeencoder;
-  private double targetAngle = .282;
+  private double targetAngle = .37;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
