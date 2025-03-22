@@ -24,18 +24,19 @@ public class AlgaeSpitCommand extends Command {
   public void initialize() {
     m_elevatorSubsystem.setPosition(Position.Algae_Spit);
     timer = null;
-    m_elevatorSubsystem.setCurrentLimit(80);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_elevatorSubsystem.getElevatorPosition() > Position.Algae_Spit.position - 1) {
-      m_elevatorSubsystem.setAlgaeSpeed(1);
       if (timer == null) {
+        m_elevatorSubsystem.setCurrentLimit(80);
+
         timer = new Timer();
         timer.start();
       }
+      m_elevatorSubsystem.setAlgaeSpeed(1);
     }
   }
 
@@ -49,6 +50,9 @@ public class AlgaeSpitCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (timer != null && timer.hasElapsed(.5)) {
+      m_elevatorSubsystem.setPosition(Position.ELV_algaeLow);
+    }
     return timer != null && timer.hasElapsed(1);
   }
 }

@@ -45,8 +45,8 @@ public final class Constants {
     ELV_4(30, .71, 0),
     ELV_Intake(0, .82, 0),
     ELV_IntakeTravel(0, .9, 0),
-    ELV_4_algae(18, 0, .32),
-    ELV_algaeLow(10.4, 0, .32),
+    ELV_4_algae(18, .58, .32),
+    ELV_algaeLow(10.4, .58, .32),
     ELV_4_auto(30, .54, 0),
 
     // Algae Spit

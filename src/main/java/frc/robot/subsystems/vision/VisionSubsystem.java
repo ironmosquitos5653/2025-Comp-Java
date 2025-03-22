@@ -67,11 +67,12 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public void updateCamera() {
+
     boolean useMegaTag2 = !true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
     if (useMegaTag2 == false) {
       LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(reefCamera);
-      LimelightHelpers.PoseEstimate mt1CS =
+      /* LimelightHelpers.PoseEstimate mt1CS =
           LimelightHelpers.getBotPoseEstimate_wpiBlue(coralStationCamera);
       if (mt1CS != null
           && mt1CS.rawFiducials.length == 1
@@ -85,16 +86,13 @@ public class VisionSubsystem extends SubsystemBase {
             mt1CS.timestampSeconds,
             VecBuilder.fill(.1, .1, .1)); // 9999999));
       }
-
+      */
       if (mt1 != null) {
         if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-          SmartDashboard.putNumber("ReefAmbiguity", mt1.rawFiducials[0].ambiguity);
           if (mt1.rawFiducials[0].ambiguity > .7) {
             doRejectUpdate = true;
           }
-          if (coralStationTags.contains(mt1.rawFiducials[0].id)) {
-            doRejectUpdate = true;
-          }
+
           if (mt1.rawFiducials[0].distToCamera > 2) {
             doRejectUpdate = true;
           }
@@ -113,7 +111,6 @@ public class VisionSubsystem extends SubsystemBase {
               cameraTransform(mt1.pose, reefCameraTransform),
               mt1.timestampSeconds,
               VecBuilder.fill(.1, .1, .1)); // 9999999));
-          SmartDashboard.putNumber("mt1X", mt1.timestampSeconds);
         }
       }
     } else if (useMegaTag2 == true) {

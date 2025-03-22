@@ -146,7 +146,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void updateCoral() {
     coralPidController.setSetpoint(.7);
 
-    if (targetPosition.angle != 0) {
+    if (targetPosition.angle != 0 && !hasAlgae()) {
       coralPidController.setSetpoint(targetPosition.angle);
       double speed = coralPidController.calculate(coralEncoder.getPosition());
       if (speed > .5) {
@@ -252,5 +252,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     config.smartCurrentLimit(current);
     algaeIntakeMotor.configure(
         config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  }
+
+  public boolean hasAlgae() {
+    return algaeIntakeMotor.get() != 0 && getAlgaeVelocity() > -.5;
   }
 }
