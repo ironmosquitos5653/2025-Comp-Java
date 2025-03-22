@@ -32,7 +32,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.3
           }
         },
         {
@@ -77,6 +77,68 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RL5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUpRLBR"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpitCoral"
           }
         }
       ]

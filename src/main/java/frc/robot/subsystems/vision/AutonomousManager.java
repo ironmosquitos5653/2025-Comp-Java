@@ -50,46 +50,47 @@ public class AutonomousManager {
 
     // RED RIGHT
     register(
-        "AutoElevatorUpRLTL", new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftTop", true));
+        "AutoElevatorUpRLTL",
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftTop", true, 3.35));
     register(
         "AutoElevatorUpRRTL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", true));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", true, 3));
     register(
         "AutoElevatorUpRRTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", false, 3));
 
     // RED LEFT
     register(
         "AutoElevatorUpRLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftBottom", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftBottom", false, 3.3));
     register(
         "AutoElevatorUpRLBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", true));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", true, 2.8));
     register(
         "AutoElevatorUpRLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", false, 2.7));
 
     // BLUE RIGHT
     register(
         "AutoElevatorUpBRBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightBottom", true));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightBottom", true, 3.35));
     register(
         "AutoElevatorUpBLBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", true));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", true, 3));
     register(
         "AutoElevatorUpBLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", false, 3));
 
     // BLUE LEFT
     register(
         "AutoElevatorUpBRTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightTop", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightTop", false, 3.35));
     register(
         "AutoElevatorUpBLTL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", true));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", true, 3));
     register(
         "AutoElevatorUpBLTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", false));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", false, 3));
   }
 
   private void register(String name, Command command) {

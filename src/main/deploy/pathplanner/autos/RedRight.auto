@@ -17,13 +17,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUp"
+                  "name": "AutoElevatorUpRLTL"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RL1"
+                  "pathName": "RR1"
                 }
               }
             ]
@@ -67,7 +67,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUp2"
+                  "name": "AutoElevatorUpRRTL"
                 }
               }
             ]
@@ -111,7 +111,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUp3"
+                  "name": "AutoElevatorUpRRTR"
                 }
               }
             ]

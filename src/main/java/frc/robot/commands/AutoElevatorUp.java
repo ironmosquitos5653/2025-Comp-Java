@@ -20,11 +20,17 @@ public class AutoElevatorUp extends Command {
   Drive m_Drive;
   double waitTime;
   Pose2d m_targetPose;
+  double m_distance;
 
   public AutoElevatorUp(
-      ElevatorSubsystem elevatorSubsystem, Drive drive, String reefSide, boolean left) {
+      ElevatorSubsystem elevatorSubsystem,
+      Drive drive,
+      String reefSide,
+      boolean left,
+      double distance) {
     m_ElevatorSubsystem = elevatorSubsystem;
     m_Drive = drive;
+    m_distance = distance;
     addRequirements(m_ElevatorSubsystem);
     this.waitTime = 1.1;
 
@@ -70,7 +76,8 @@ public class AutoElevatorUp extends Command {
     Pose2d current = m_Drive.getPose();
     SmartDashboard.putString("Current Pose", current.getX() + " - " + current.getY());
 
-    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 3.3) {
+    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation())
+        < m_distance) {
       m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
   }

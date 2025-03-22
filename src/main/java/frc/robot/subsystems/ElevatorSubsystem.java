@@ -149,10 +149,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (targetPosition.angle != 0 && !hasAlgae()) {
       coralPidController.setSetpoint(targetPosition.angle);
       double speed = coralPidController.calculate(coralEncoder.getPosition());
-      if (speed > .5) {
-        speed = .5;
-      } else if (speed < -.2) {
-        speed = -.2;
+      if (speed > .6) {
+        speed = .6;
+      } else if (speed < -.5) {
+        speed = -.5;
       }
       SmartDashboard.putString(
           "STUFF!!!!",
