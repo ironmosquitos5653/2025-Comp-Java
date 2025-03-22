@@ -70,7 +70,7 @@ public class AutoElevatorUp extends Command {
     Pose2d current = m_Drive.getPose();
     SmartDashboard.putString("Current Pose", current.getX() + " - " + current.getY());
 
-    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 2) {
+    if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()) < 3.3) {
       m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
   }
@@ -82,6 +82,6 @@ public class AutoElevatorUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Position.ELV_4.position < m_ElevatorSubsystem.getElevatorPosition() - 1;
+    return Position.ELV_4.position < m_ElevatorSubsystem.getElevatorPosition() + 1;
   }
 }
