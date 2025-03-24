@@ -43,54 +43,60 @@ public class AutonomousManager {
     register("SpitCoral", new CoralSpitCommand(m_elevatorSubsystem));
     register("IntakeOn", new CoralIntakeCommand(m_elevatorSubsystem));
     register("AlgaeIntakeOn", new AlgaeIntakeCommand(m_elevatorSubsystem, Position.ELV_4_algae));
+    register("AlgaeIntakeLow", new AlgaeIntakeCommand(m_elevatorSubsystem, Position.ELV_algaeLow));
     register("AlgaeSpit", new AlgaeSpitCommand(m_elevatorSubsystem));
     register("Reset", Commands.runOnce(() -> m_elevatorSubsystem.reset()));
+    register("AlgaeSpit", new AlgaeSpitCommand(m_elevatorSubsystem));
     register(
         "LiftElevator3", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_3)));
 
     // RED RIGHT
     register(
         "AutoElevatorUpRLTL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftTop", true, 3.35));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftTop", true, 2, .5));
     register(
         "AutoElevatorUpRRTL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", true, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", true, 2.8, 1.25));
     register(
         "AutoElevatorUpRRTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", false, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", false, 2.7, 1.25));
 
     // RED LEFT
     register(
         "AutoElevatorUpRLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftBottom", false, 3.3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedLeftBottom", false, 3.3, .6));
     register(
-        "AutoElevatorUpRLBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", true, 2.8));
+        "AutoElevatorUpRRBL",
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", true, 2.8, 1.25));
     register(
-        "AutoElevatorUpRLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", false, 2.7));
+        "AutoElevatorUpRRBR",
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightBottom", false, 2.7, 1.25));
 
     // BLUE RIGHT
     register(
         "AutoElevatorUpBRBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightBottom", true, 3.35));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightBottom", true, 3.35, .5));
     register(
         "AutoElevatorUpBLBL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", true, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", true, 3, 1.25));
     register(
         "AutoElevatorUpBLBR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", false, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftBottom", false, 3, 1.25));
 
     // BLUE LEFT
     register(
         "AutoElevatorUpBRTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightTop", false, 3.35));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRightTop", false, 3.35, .5));
     register(
         "AutoElevatorUpBLTL",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", true, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", true, 3, 1.25));
     register(
         "AutoElevatorUpBLTR",
-        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", false, 3));
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueLeftTop", false, 3, 1.25));
+
+    register(
+        "AutoElevatorUpBRMR",
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "BlueRight", false, 0, 0));
   }
 
   private void register(String name, Command command) {

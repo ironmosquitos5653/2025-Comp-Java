@@ -107,6 +107,7 @@ public class VisionSubsystem extends SubsystemBase {
         if (!doRejectUpdate) {
           SmartDashboard.putString("mt1", getFomattedPose(mt1.pose));
           SmartDashboard.putNumber("AprilTag", mt1.rawFiducials[0].id);
+          SmartDashboard.putNumber("Amibuity", mt1.rawFiducials[0].ambiguity);
           m_driveSubsystem.addVisionMeasurement(
               cameraTransform(mt1.pose, reefCameraTransform),
               mt1.timestampSeconds,

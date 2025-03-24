@@ -11,27 +11,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "MBA1a"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LiftElevator"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RA1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUpBRMR"
+                }
+              }
+            ]
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MBA1b"
+            "waitTime": 0.4
           }
         },
         {
@@ -43,7 +44,31 @@
         {
           "type": "named",
           "data": {
-            "name": "Reset"
+            "name": "AlgaeIntakeLow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RA2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeSpit"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RA3"
           }
         },
         {
@@ -55,7 +80,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MBA2"
+            "pathName": "RA4"
           }
         },
         {
@@ -65,22 +90,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "MBA3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeOn"
-                }
-              }
-            ]
+            "pathName": "RA5"
           }
         }
       ]

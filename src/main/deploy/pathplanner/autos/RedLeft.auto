@@ -32,7 +32,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.2
           }
         },
         {
@@ -67,7 +67,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUpRLBL"
+                  "name": "AutoElevatorUpRRBL"
                 }
               },
               {
@@ -123,7 +123,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUpRLBR"
+                  "name": "AutoElevatorUpRRBR"
                 }
               }
             ]

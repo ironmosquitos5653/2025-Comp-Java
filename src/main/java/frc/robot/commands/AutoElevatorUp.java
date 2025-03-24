@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Position;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -27,12 +26,13 @@ public class AutoElevatorUp extends Command {
       Drive drive,
       String reefSide,
       boolean left,
-      double distance) {
+      double distance,
+      double time) {
     m_ElevatorSubsystem = elevatorSubsystem;
     m_Drive = drive;
     m_distance = distance;
     addRequirements(m_ElevatorSubsystem);
-    this.waitTime = 1.1;
+    this.waitTime = time;
 
     if (reefSide.startsWith("Blue")) {
       m_targetPose = getTargetPose(VisionSubsystem.blueReefSidess, reefSide, left);
@@ -67,8 +67,9 @@ public class AutoElevatorUp extends Command {
   @Override
   public void execute() {
     if (timer.hasElapsed(waitTime)) {
-      // m_ElevatorSubsystem.setPosition(Position.ELV_4);
+      m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
+    /*
     SmartDashboard.putNumber(
         "GetDistance",
         m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation()));
@@ -78,8 +79,9 @@ public class AutoElevatorUp extends Command {
 
     if (m_Drive.getPose().getTranslation().getDistance(m_targetPose.getTranslation())
         < m_distance) {
-      m_ElevatorSubsystem.setPosition(Position.ELV_4);
+      // m_ElevatorSubsystem.setPosition(Position.ELV_4);
     }
+      */
   }
 
   // Called once the command ends or is interrupted.

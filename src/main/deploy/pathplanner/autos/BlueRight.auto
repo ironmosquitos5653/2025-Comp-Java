@@ -15,18 +15,24 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "AutoElevatorUp"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "BR1"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoElevatorUpBRBL"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
           }
         },
         {
@@ -67,10 +73,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUp2"
+                  "name": "AutoElevatorUpBLBL"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
@@ -111,10 +123,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoElevatorUp3"
+                  "name": "AutoElevatorUpBLBR"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
