@@ -22,7 +22,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private AbsoluteEncoder rotateencoder = null;
   private RelativeEncoder climbeencoder;
-  private double targetAngle = .37;
+  private double targetAngle = .186;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
@@ -30,7 +30,7 @@ public class ClimbSubsystem extends SubsystemBase {
     rotate = new SparkMax(rotateMotorCANId, MotorType.kBrushless);
     rotateencoder = rotate.getAbsoluteEncoder();
     climbeencoder = climb.getEncoder();
-    pidController = new PIDController(1, .0003, 0);
+    pidController = new PIDController(1.7, 0, 0.35);
     pidController.enableContinuousInput(0, 1);
     climbeencoder.setPosition(0);
   }
@@ -41,10 +41,10 @@ public class ClimbSubsystem extends SubsystemBase {
     if (targetAngle != 0) {
       pidController.setSetpoint(targetAngle);
       double speed = pidController.calculate(rotateencoder.getPosition());
-      if (speed > .2) {
-        speed = .2;
-      } else if (speed < -.3) {
-        speed = -.3;
+      if (speed > 1) {
+        speed = 1;
+      } else if (speed < -.5) {
+        speed = -.1;
       }
       SmartDashboard.putNumber("climbRotateSpeed", speed);
       rotate.set(speed);
@@ -60,7 +60,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .185;
+    targetAngle = .060;
   }
 
   public void armIn() {
