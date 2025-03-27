@@ -60,7 +60,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .175;
+    targetAngle = .185;
   }
 
   public void armIn() {

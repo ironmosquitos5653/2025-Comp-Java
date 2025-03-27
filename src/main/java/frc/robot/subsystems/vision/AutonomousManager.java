@@ -60,6 +60,9 @@ public class AutonomousManager {
     register(
         "AutoElevatorUpRRTR",
         new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedRightTop", false, 2.7, 1.25));
+    register(
+        "AutoElevatorUpRMTR",
+        new AutoElevatorUp(m_elevatorSubsystem, m_Drive, "RedMiddle", false, 0, 0));
 
     // RED LEFT
     register(
