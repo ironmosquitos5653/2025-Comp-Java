@@ -23,6 +23,7 @@ public class ClimbCommand extends Command {
   @Override
   public void execute() {
     m_ClimbSubsystem.setSpeed(-.8);
+    m_ClimbSubsystem.enableClimber(false);
   }
 
   // Called once the command ends or is interrupted.

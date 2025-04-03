@@ -20,6 +20,7 @@ public class ClimbOutCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_ClimbSubsystem.enableClimber(true);
     m_ClimbSubsystem.armOut();
     m_ClimbSubsystem.reset();
   }

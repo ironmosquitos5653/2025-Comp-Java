@@ -22,7 +22,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private AbsoluteEncoder rotateencoder = null;
   private RelativeEncoder climbeencoder;
-  private double targetAngle = .186;
+  private double targetAngle = .321;
+  private boolean enabled = true;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
@@ -38,7 +39,7 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (targetAngle != 0) {
+    if (targetAngle != 0 && enabled) {
       pidController.setSetpoint(targetAngle);
       double speed = pidController.calculate(rotateencoder.getPosition());
       if (speed > 1) {
@@ -60,7 +61,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .060;
+    targetAngle = .152;
   }
 
   public void armIn() {
@@ -73,5 +74,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void reset() {
     climbeencoder.setPosition(0);
+  }
+
+  public void enableClimber(boolean e) {
+    enabled = e;
   }
 }
