@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
@@ -21,7 +20,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private PIDController pidController;
 
   private AbsoluteEncoder rotateencoder = null;
-  private RelativeEncoder climbeencoder;
+
   private double targetAngle = .321;
   private boolean enabled = true;
 
@@ -30,10 +29,9 @@ public class ClimbSubsystem extends SubsystemBase {
     climb = new SparkMax(climbMotorCANId, MotorType.kBrushless);
     rotate = new SparkMax(rotateMotorCANId, MotorType.kBrushless);
     rotateencoder = rotate.getAbsoluteEncoder();
-    climbeencoder = climb.getEncoder();
-    pidController = new PIDController(1.7, 0, 0.35);
+
+    pidController = new PIDController(5, 0, 0.3);
     pidController.enableContinuousInput(0, 1);
-    climbeencoder.setPosition(0);
   }
 
   @Override
@@ -42,18 +40,16 @@ public class ClimbSubsystem extends SubsystemBase {
     if (targetAngle != 0 && enabled) {
       pidController.setSetpoint(targetAngle);
       double speed = pidController.calculate(rotateencoder.getPosition());
-      if (speed > 1) {
-        speed = 1;
+      if (speed > .1) {
+        speed = .1;
       } else if (speed < -.5) {
         speed = -.1;
       }
       SmartDashboard.putNumber("climbRotateSpeed", speed);
       rotate.set(speed);
     } else {
-      climb.set(0);
-      climb.set(0);
+      rotate.set(0);
     }
-    SmartDashboard.putNumber("ClimbMotor", climbeencoder.getPosition());
   }
 
   public void setSpeed(double speed) {
@@ -61,19 +57,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void armOut() {
-    targetAngle = .152;
-  }
-
-  public void armIn() {
-    climb.set(1);
-  }
-
-  public double getPosition() {
-    return climbeencoder.getPosition();
-  }
-
-  public void reset() {
-    climbeencoder.setPosition(0);
+    targetAngle = .17;
   }
 
   public void enableClimber(boolean e) {

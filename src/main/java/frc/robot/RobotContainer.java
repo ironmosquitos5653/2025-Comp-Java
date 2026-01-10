@@ -30,9 +30,7 @@ import frc.robot.commands.ClimbOutCommand;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralSpitCommand;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.LineUpCommand;
 import frc.robot.commands.LineUpCommandStation;
-import frc.robot.commands.TestPID;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.drive.Drive;
@@ -177,7 +175,7 @@ public class RobotContainer {
 
     driveController.a().onTrue(new LineUpCommandStation(trajectoryCommandFactory, visionSubsystem));
     driveController.povLeft().onTrue(Commands.runOnce((() -> elevatorSubsystem.reset())));
-    driveController.povRight().whileTrue(new TestPID(elevatorSubsystem, climbSubsystem));
+    // driveController.povRight().onTrue(new TestPID(elevatorSubsystem, climbSubsystem));
     driveController.povDown().onTrue(new ClimbOutCommand(climbSubsystem));
     driveController.povUp().whileTrue(new ClimbCommand(climbSubsystem));
 
@@ -204,17 +202,14 @@ public class RobotContainer {
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
 
     // LineUp Commands
-    driveController
-        .leftBumper()
-        .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, true));
-    driveController
-        .rightBumper()
-        .onTrue(new LineUpCommand(trajectoryCommandFactory, visionSubsystem, false));
+
     coPilotController.povRight().onTrue(new AlgaeSpitCommand(elevatorSubsystem)); // spit high
     coPilotController.povLeft().onTrue(new AlgaeLowCommand(elevatorSubsystem)); // Spit Low
 
     coPilotController.leftBumper().onTrue(new CoralIntakeCommand(elevatorSubsystem));
     coPilotController.rightBumper().onTrue(new CoralSpitCommand(elevatorSubsystem));
+
+    driveController.leftBumper().onTrue(Commands.runOnce(drive::stopWithX, drive));
   }
 
   /**

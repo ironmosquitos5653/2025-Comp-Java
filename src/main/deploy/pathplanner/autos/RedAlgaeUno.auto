@@ -32,7 +32,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
@@ -61,12 +61,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "AlgaeSpit"
@@ -89,37 +83,6 @@
           "type": "named",
           "data": {
             "name": "AlgaeIntakeOn"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RA4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LiftElevator2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlgaeSpit"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RA5"
           }
         }
       ]

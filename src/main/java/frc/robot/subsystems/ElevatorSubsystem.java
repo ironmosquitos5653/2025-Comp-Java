@@ -97,7 +97,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       double speed = elevatorPidController.calculate(elevatorEncoder.getPosition());
 
       if (speed > .7) {
-        if (elevatorEncoder.getPosition() < 2) {
+        if (elevatorEncoder.getPosition() < 4) {
           speed = .3;
         } else {
           speed = .7;

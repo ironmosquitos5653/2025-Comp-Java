@@ -22,7 +22,6 @@ public class ClimbOutCommand extends Command {
   public void initialize() {
     m_ClimbSubsystem.enableClimber(true);
     m_ClimbSubsystem.armOut();
-    m_ClimbSubsystem.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

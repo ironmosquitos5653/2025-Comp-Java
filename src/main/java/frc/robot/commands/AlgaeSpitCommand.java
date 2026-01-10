@@ -53,6 +53,6 @@ public class AlgaeSpitCommand extends Command {
     if (timer != null && timer.hasElapsed(.5)) {
       m_elevatorSubsystem.setPosition(Position.ELV_algaeLow);
     }
-    return timer != null && timer.hasElapsed(1);
+    return timer != null && timer.hasElapsed(.75);
   }
 }

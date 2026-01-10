@@ -37,6 +37,8 @@ public class AutonomousManager {
     register(
         "LiftElevator", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_4)));
     register(
+        "LiftElevator2", Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_2)));
+    register(
         "LiftElevatorAuto",
         Commands.runOnce(() -> m_elevatorSubsystem.setPosition(Position.ELV_4_auto)));
     // wait 1s
